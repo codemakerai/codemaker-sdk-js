@@ -1,0 +1,22 @@
+{
+  "name": "codemaker-sdk",
+  "version": "1.0.0",
+  "description": "CodeMaker SDK for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/codemakerai/codemaker-sdk-js.git",
+  "keywords": [
+    "codemakerai"
+  ],
+  "author": "CodeMaker AI Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codemakerai/codemaker-sdk-js/issues"
+  },
+  "homepage": "https://github.com/codemakerai/codemaker-sdk-js#readme",
+  "dependencies": {
+    "typescript": "^5.2.2"
+  }
+}
