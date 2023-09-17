@@ -28,7 +28,7 @@ export type Process = {
     mode: Mode,
     language: Language,
     input: Input
-    options: Options
+    options?: Options
 };
 
 export type Input = {
