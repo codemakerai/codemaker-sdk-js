@@ -27,7 +27,8 @@ export type GetProcessOutputResponse = {
 export type Process = {
     mode: Mode,
     language: Language,
-    input: Input
+    input: Input,
+    options: Options,
 };
 
 export type Input = {
@@ -40,6 +41,7 @@ export type Output = {
 
 export type Options = {
     readonly modify?: Modify;
+    readonly codePath?: string;
     readonly prompt?: string
 };
 
