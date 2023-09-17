@@ -10,7 +10,6 @@ describe('Client', () => {
     const axiosMock = sinon.mock(axios);
     let client: Client | null = null;
 
-
     beforeEach(() => {
         client = new Client(() => "test_api_key");
     });
@@ -24,6 +23,9 @@ describe('Client', () => {
                     language: Language.typescript,
                     input: {
                         source: "class App {}"
+                    },
+                    options: {
+                        prompt: "prompt"
                     }
                 }
             };

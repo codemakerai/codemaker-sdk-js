@@ -28,6 +28,7 @@ export type Process = {
     mode: Mode,
     language: Language,
     input: Input
+    options: Options
 };
 
 export type Input = {
@@ -41,6 +42,7 @@ export type Output = {
 export type Options = {
     readonly modify?: Modify;
     readonly prompt?: string
+    readonly codePath?: string
 };
 
 export enum Mode {
