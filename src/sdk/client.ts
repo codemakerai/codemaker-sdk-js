@@ -21,7 +21,7 @@ export class Client {
             baseURL: Client.apiEndpoint,
             headers: {
                 'Content-type': 'application/json',
-                'User-Agent': 'CodeMakerSDKJavaScript/1.2.0'
+                'User-Agent': 'CodeMakerSDKJavaScript/1.3.0'
             },
         });
     }
