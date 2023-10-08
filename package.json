@@ -4,13 +4,18 @@
   "description": "CodeMaker SDK for JavaScript",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p ./",
     "test": "mocha",
     "lint": "eslint src --ext ts"
   },
-  "repository": "git+https://github.com/codemakerai/codemaker-sdk-js.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codemakerai/codemaker-sdk-js.git"
+  },
   "keywords": [
     "codemakerai",
     "ai",
