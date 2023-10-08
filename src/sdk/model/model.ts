@@ -43,6 +43,7 @@ export type Options = {
     readonly modify?: Modify;
     readonly prompt?: string
     readonly codePath?: string
+    readonly allowMultiLineAutocomplete?: boolean
 };
 
 export enum Mode {
