@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "prepare": "tsc -p ./",
     "build": "tsc -p ./",
     "test": "mocha",
     "lint": "eslint src --ext ts"
