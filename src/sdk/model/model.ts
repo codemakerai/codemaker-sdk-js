@@ -39,11 +39,19 @@ export type Output = {
     readonly source: string
 };
 
+export type CodeSnippetContext = {
+    readonly language: string;
+    readonly snippet: string;
+    readonly relativePath: string;
+    readonly score: number;
+}
+
 export type Options = {
     readonly modify?: Modify;
     readonly prompt?: string
     readonly codePath?: string
     readonly allowMultiLineAutocomplete?: boolean
+    readonly codeSnippetContexts?: CodeSnippetContext[]
 };
 
 export enum Mode {
