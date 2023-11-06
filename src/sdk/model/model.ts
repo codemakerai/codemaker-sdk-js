@@ -1,28 +1,32 @@
 // Copyright 2023 CodeMaker AI Inc. All rights reserved.
 
-export type CreateProcessRequest = {
-    process: Process
+export type CompletionRequest = {
+    language: Language,
+    input: Input
+    options?: Options
 };
 
-export type CreateProcessResponse = {
-    id: string
-};
-
-export type GetProcessStatusRequest = {
-    id: string
-};
-
-export type GetProcessStatusResponse = {
-    status: Status
-};
-
-export type GetProcessOutputRequest = {
-    id: string
-};
-
-export type GetProcessOutputResponse = {
+export type CompletionResponse = {
     output: Output
 };
+
+export type ProcessRequest = {
+    mode: Mode,
+    language: Language,
+    input: Input
+    options?: Options
+};
+
+export type ProcessResponse = {
+    output: Output
+};
+
+export type PredictRequest = {
+    language: Language,
+    input: Input
+};
+
+export type PredictResponse = {};
 
 export type Process = {
     mode: Mode,
@@ -44,13 +48,14 @@ export type CodeSnippetContext = {
     readonly snippet: string;
     readonly relativePath: string;
     readonly score: number;
-}
+};
 
 export type Options = {
     readonly modify?: Modify;
     readonly prompt?: string
     readonly codePath?: string
     readonly allowMultiLineAutocomplete?: boolean
+    readonly detectSyntaxErrors?: boolean
     readonly codeSnippetContexts?: CodeSnippetContext[]
 };
 
@@ -73,13 +78,6 @@ export enum Language {
     kotlin = "KOTLIN",
     go = "GO",
     csharp = "CSHARP",
-}
-
-export enum Status {
-    inProgress = "IN_PROGRESS",
-    completed = "COMPLETED",
-    failed = "FAILED",
-    timedOut = "TIMED_OUT"
 }
 
 export enum Modify {
