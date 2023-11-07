@@ -1,4 +1,4 @@
-// Original file: src/proto/codemakerai.proto
+// Original file: src/sdk/proto/codemakerai.proto
 
 import type { CodeSnippetContext as _ai_codemaker_service_CodeSnippetContext, CodeSnippetContext__Output as _ai_codemaker_service_CodeSnippetContext__Output } from '../../../ai/codemaker/service/CodeSnippetContext';
 

@@ -1,4 +1,4 @@
-// Original file: src/proto/codemakerai.proto
+// Original file: src/sdk/proto/codemakerai.proto
 
 import type { Output as _ai_codemaker_service_Output, Output__Output as _ai_codemaker_service_Output__Output } from '../../../ai/codemaker/service/Output';
 

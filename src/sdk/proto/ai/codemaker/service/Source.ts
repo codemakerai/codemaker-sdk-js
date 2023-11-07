@@ -1,4 +1,4 @@
-// Original file: src/proto/codemakerai.proto
+// Original file: src/sdk/proto/codemakerai.proto
 
 import type { Encoding as _ai_codemaker_service_Encoding, Encoding__Output as _ai_codemaker_service_Encoding__Output } from '../../../ai/codemaker/service/Encoding';
 

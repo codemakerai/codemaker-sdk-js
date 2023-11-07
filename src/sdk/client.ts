@@ -34,7 +34,7 @@ export class Client {
 
     private static readonly endpoint = 'process.codemaker.ai';
 
-    private static readonly protoFile = __dirname + '/../../src/proto/codemakerai.proto';
+    private static readonly protoFile = __dirname + '/proto/codemakerai.proto';
 
     private readonly enableCompression = true;
 
