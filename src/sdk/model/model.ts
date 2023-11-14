@@ -1,46 +1,78 @@
 // Copyright 2023 CodeMaker AI Inc. All rights reserved.
 
 export type CompletionRequest = {
-    language: Language,
-    input: Input
-    options?: Options
+    language: Language;
+    input: Input;
+    options?: Options;
 };
 
 export type CompletionResponse = {
-    output: Output
+    output: Output;
 };
 
 export type ProcessRequest = {
-    mode: Mode,
-    language: Language,
-    input: Input
-    options?: Options
+    mode: Mode;
+    language: Language;
+    input: Input;
+    options?: Options;
 };
 
 export type ProcessResponse = {
-    output: Output
+    output: Output;
 };
 
 export type PredictRequest = {
-    language: Language,
-    input: Input
+    language: Language;
+    input: Input;
 };
 
 export type PredictResponse = {};
 
+export type DiscoverContextRequest = {
+    context: SourceContext;
+};
+
+export type DiscoverContextResponse = {
+    requiredContexts: RequiredSourceContext[];
+};
+
+export type CreateContextRequest = {
+};
+
+export type CreateContextResponse = {
+    id: string;
+};
+
+export type RegisterContextRequest = {
+    id: string;
+    contexts: SourceContext[];
+};
+
+export type RegisterContextResponse = {};
+
 export type Process = {
-    mode: Mode,
-    language: Language,
-    input: Input
-    options?: Options
+    mode: Mode;
+    language: Language;
+    input: Input;
+    options?: Options;
 };
 
 export type Input = {
-    readonly source: string
+    readonly source: string;
 };
 
 export type Output = {
-    readonly source: string
+    readonly source: string;
+};
+
+export type SourceContext = {
+    readonly language: Language;
+    readonly input: Input;
+    readonly path: string;
+};
+
+export type RequiredSourceContext = {
+    readonly path: string;
 };
 
 export type CodeSnippetContext = {
@@ -52,11 +84,12 @@ export type CodeSnippetContext = {
 
 export type Options = {
     readonly modify?: Modify;
-    readonly prompt?: string
-    readonly codePath?: string
-    readonly allowMultiLineAutocomplete?: boolean
-    readonly detectSyntaxErrors?: boolean
-    readonly codeSnippetContexts?: CodeSnippetContext[]
+    readonly prompt?: string;
+    readonly codePath?: string;
+    readonly allowMultiLineAutocomplete?: boolean;
+    readonly detectSyntaxErrors?: boolean;
+    readonly codeSnippetContexts?: CodeSnippetContext[];
+    readonly contextId?: string;
 };
 
 export enum Mode {

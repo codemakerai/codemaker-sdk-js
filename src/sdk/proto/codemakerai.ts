@@ -16,9 +16,14 @@ export interface ProtoGrpcType {
         CompletionOptions: MessageTypeDefinition
         CompletionRequest: MessageTypeDefinition
         CompletionResponse: MessageTypeDefinition
+        CreateSourceContextRequest: MessageTypeDefinition
+        CreateSourceContextResponse: MessageTypeDefinition
+        DiscoverSourceContextRequest: MessageTypeDefinition
+        DiscoverSourceContextResponse: MessageTypeDefinition
         Encoding: EnumTypeDefinition
         Input: MessageTypeDefinition
         Language: EnumTypeDefinition
+        Metadata: MessageTypeDefinition
         Mode: EnumTypeDefinition
         Modify: EnumTypeDefinition
         Output: MessageTypeDefinition
@@ -27,7 +32,11 @@ export interface ProtoGrpcType {
         ProcessOptions: MessageTypeDefinition
         ProcessRequest: MessageTypeDefinition
         ProcessResponse: MessageTypeDefinition
+        RegisterSourceContextRequest: MessageTypeDefinition
+        RegisterSourceContextResponse: MessageTypeDefinition
+        RequiredSourceContext: MessageTypeDefinition
         Source: MessageTypeDefinition
+        SourceContext: MessageTypeDefinition
       }
     }
   }
