@@ -7,6 +7,7 @@ export interface ProcessOptions {
   'codePath'?: (string);
   'prompt'?: (string);
   'detectSyntaxErrors'?: (boolean);
+  'contextId'?: (string);
 }
 
 export interface ProcessOptions__Output {
@@ -14,4 +15,5 @@ export interface ProcessOptions__Output {
   'codePath': (string);
   'prompt': (string);
   'detectSyntaxErrors': (boolean);
+  'contextId': (string);
 }

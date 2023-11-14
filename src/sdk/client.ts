@@ -7,12 +7,13 @@ import {CodemakerServiceClient} from "./proto/ai/codemaker/service/CodemakerServ
 import {
     CodeSnippetContext,
     CompletionRequest,
-    CompletionResponse,
+    CompletionResponse, CreateContextRequest, CreateContextResponse,
+    DiscoverContextRequest, DiscoverContextResponse,
     Input,
     Modify,
     PredictRequest,
     ProcessRequest,
-    ProcessResponse
+    ProcessResponse, RegisterContextRequest, RegisterContextResponse, RequiredSourceContext, SourceContext
 } from "./model/model";
 import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
@@ -26,6 +27,18 @@ import {
     PredictResponse,
     PredictResponse__Output as CodemakerPredictResponse
 } from "./proto/ai/codemaker/service/PredictResponse";
+import {DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest} from "./proto/ai/codemaker/service/DiscoverSourceContextRequest";
+import {DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse} from "./proto/ai/codemaker/service/DiscoverSourceContextResponse";
+import {
+    SourceContext as CodemakerSourceContext
+} from "./proto/ai/codemaker/service/SourceContext";
+import {
+    RequiredSourceContext as CodemakerRequiredSourceContext
+} from "./proto/ai/codemaker/service/RequiredSourceContext";
+import {CreateSourceContextRequest as CodemakerCreateSourceContextRequest} from "./proto/ai/codemaker/service/CreateSourceContextRequest";
+import {CreateSourceContextResponse as CodemakerCreateSourceContextResponse} from "./proto/ai/codemaker/service/CreateSourceContextResponse";
+import {RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest} from "./proto/ai/codemaker/service/RegisterSourceContextRequest";
+import {RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse} from "./proto/ai/codemaker/service/RegisterSourceContextResponse";
 import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Output";
 import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
@@ -66,6 +79,24 @@ export class Client {
         const predictRequest = this.createPredictRequest(request);
         const predictResponse = await this.doPredict(predictRequest);
         return this.createPredictResponse(predictResponse);
+    }
+
+    async discoverContext(request: DiscoverContextRequest) {
+        const discoverContextRequest = this.createDiscoverContextRequest(request);
+        const discoverContextResponse = await this.doDiscoverContext(discoverContextRequest);
+        return this.createDiscoverContextResponse(discoverContextResponse);
+    }
+
+    async createContext(request: CreateContextRequest) {
+        const createContextRequest = this.createCreateContextRequest(request);
+        const createContextResponse = await this.doCreateContext(createContextRequest);
+        return this.createCreateContextResponse(createContextResponse);
+    }
+
+    async registerContext(request: RegisterContextRequest) {
+        const registerContextRequest = this.createRegisterContextRequest(request);
+        const registerContextResponse = await this.doRegisterContext(registerContextRequest);
+        return this.createRegisterContextResponse(registerContextResponse);
     }
 
     private createCompletionRequest(request: CompletionRequest): CodemakerCompletionRequest {
@@ -109,7 +140,8 @@ export class Client {
                 modify: this.mapModify(request.options?.modify),
                 codePath: request.options?.codePath,
                 prompt: request.options?.prompt,
-                detectSyntaxErrors: request.options?.detectSyntaxErrors
+                detectSyntaxErrors: request.options?.detectSyntaxErrors,
+                contextId: request.options?.contextId,
             }
         };
     }
@@ -153,6 +185,82 @@ export class Client {
     }
 
     private createPredictResponse(predictResponse: CodemakerPredictResponse): PredictResponse {
+        return {};
+    }
+
+    private createDiscoverContextRequest(request: DiscoverContextRequest): CodemakerDiscoverSourceContextRequest {
+        return {
+            context: {
+                // @ts-ignore
+                language: request.context.language,
+                input: this.createInput(request.context.input),
+                metadata: {
+                    path: request.context.path,
+                }
+            }
+        };
+    }
+
+    private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest) {
+        return new Promise<CodemakerDiscoverSourceContextResponse>((resolve, reject) => {
+            this.client.DiscoverContext(discoverContextRequest, this.createMetadata(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
+    }
+
+    private createDiscoverContextResponse(discoverContextResponse: CodemakerDiscoverSourceContextResponse): DiscoverContextResponse {
+        return {
+            requiredContexts: this.mapRequiredSourceContexts(discoverContextResponse.contexts!)
+        };
+    }
+
+    private createCreateContextRequest(request: CreateContextRequest): CodemakerCreateSourceContextRequest {
+        return {};
+    }
+
+    private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest) {
+        return new Promise<CodemakerCreateSourceContextResponse>((resolve, reject) => {
+            this.client.CreateContext(createContextRequest, this.createMetadata(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
+    }
+
+    private createCreateContextResponse(createContextResponse: CodemakerCreateSourceContextResponse): CreateContextResponse {
+        return {
+            id: createContextResponse.id!
+        };
+    }
+
+    private createRegisterContextRequest(request: RegisterContextRequest): CodemakerRegisterSourceContextRequest {
+        return {
+            id: request.id,
+            sourceContexts: this.mapSourceContexts(request.contexts)
+        };
+    }
+
+    private async doRegisterContext(createContextRequest: CodemakerRegisterSourceContextRequest) {
+        return new Promise<CodemakerRegisterSourceContextResponse>((resolve, reject) => {
+            this.client.RegisterContext(createContextRequest, this.createMetadata(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
+    }
+
+    private createRegisterContextResponse(createContextResponse: CodemakerRegisterSourceContextResponse): RegisterContextResponse {
         return {};
     }
 
@@ -217,6 +325,22 @@ export class Client {
               snippet: value.snippet,
               relativePath: value.relativePath,
               score: value.score,
+        }));
+    }
+
+    private mapRequiredSourceContexts(requiredSourceContexts: CodemakerRequiredSourceContext[]): RequiredSourceContext[] {
+        return requiredSourceContexts.map(context => ({
+            path: context.path!
+        }));
+    }
+
+    private mapSourceContexts(contexts: SourceContext[]): CodemakerSourceContext[] {
+        return contexts.map(context => ({
+            language: context.language,
+            input: this.createInput(context.input),
+            metadata: {
+                path: context.path
+            }
         }));
     }
 
