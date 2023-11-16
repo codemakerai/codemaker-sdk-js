@@ -168,7 +168,10 @@ export class Client {
         return {
             // @ts-ignore
             language: request.language,
-            input: this.createInput(request.input)
+            input: this.createInput(request.input),
+            options: {
+                contextId: request.options?.contextId
+            }
         };
     }
 

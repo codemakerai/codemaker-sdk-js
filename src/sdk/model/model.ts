@@ -24,6 +24,7 @@ export type ProcessResponse = {
 export type PredictRequest = {
     language: Language;
     input: Input;
+    options?: Options;
 };
 
 export type PredictResponse = {};

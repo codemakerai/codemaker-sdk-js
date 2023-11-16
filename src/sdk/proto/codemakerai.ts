@@ -29,6 +29,7 @@ export interface ProtoGrpcType {
         Output: MessageTypeDefinition
         PredictRequest: MessageTypeDefinition
         PredictResponse: MessageTypeDefinition
+        PredictionOptions: MessageTypeDefinition
         ProcessOptions: MessageTypeDefinition
         ProcessRequest: MessageTypeDefinition
         ProcessResponse: MessageTypeDefinition
