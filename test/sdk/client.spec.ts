@@ -2,11 +2,8 @@
 
 import {assert} from 'chai';
 import { Client } from "../../src/sdk/client";
-import axios from "axios";
-import sinon from "sinon";
 
 describe('Client', () => {
-    const axiosMock = sinon.mock(axios);
     let client: Client | null = null;
 
     beforeEach(() => {
