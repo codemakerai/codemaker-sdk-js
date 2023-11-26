@@ -85,6 +85,7 @@ message CompletionOptions {
   string codePath = 1;
   bool allowMultiLineAutocomplete = 2;
   repeated CodeSnippetContext codeSnippetContexts = 3;
+  string contextId = 4;
 }
 
 message PredictionOptions {

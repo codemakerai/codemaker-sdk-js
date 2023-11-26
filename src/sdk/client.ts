@@ -107,7 +107,8 @@ export class Client {
             options: {
                 codePath: request.options?.codePath,
                 allowMultiLineAutocomplete: request.options?.allowMultiLineAutocomplete,
-                codeSnippetContexts: this.mapCodeSnippetContexts(request.options?.codeSnippetContexts)
+                codeSnippetContexts: this.mapCodeSnippetContexts(request.options?.codeSnippetContexts),
+                contextId: request.options?.contextId,
             }
         };
     }
