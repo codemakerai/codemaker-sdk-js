@@ -4,8 +4,10 @@ import type { RequiredSourceContext as _ai_codemaker_service_RequiredSourceConte
 
 export interface DiscoverSourceContextResponse {
   'contexts'?: (_ai_codemaker_service_RequiredSourceContext)[];
+  'requiresProcessing'?: (boolean);
 }
 
 export interface DiscoverSourceContextResponse__Output {
   'contexts': (_ai_codemaker_service_RequiredSourceContext__Output)[];
+  'requiresProcessing': (boolean);
 }

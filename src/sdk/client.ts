@@ -219,7 +219,8 @@ export class Client {
 
     private createDiscoverContextResponse(discoverContextResponse: CodemakerDiscoverSourceContextResponse): DiscoverContextResponse {
         return {
-            requiredContexts: this.mapRequiredSourceContexts(discoverContextResponse.contexts!)
+            requiredContexts: this.mapRequiredSourceContexts(discoverContextResponse.contexts!),
+            requiresProcessing: discoverContextResponse.requiresProcessing!,
         };
     }
 

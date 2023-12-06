@@ -35,6 +35,7 @@ export type DiscoverContextRequest = {
 
 export type DiscoverContextResponse = {
     requiredContexts: RequiredSourceContext[];
+    requiresProcessing: boolean;
 };
 
 export type CreateContextRequest = {
