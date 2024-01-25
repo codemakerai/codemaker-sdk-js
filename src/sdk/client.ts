@@ -5,6 +5,10 @@ const { createHash } = require('crypto');
 import {ProtoGrpcType} from "./proto/codemakerai";
 import {CodemakerServiceClient} from "./proto/ai/codemaker/service/CodemakerService";
 import {
+    AssistantCodeCompletionRequest,
+    AssistantCompletionRequest,
+    AssistantCompletionResponse,
+    AssistantCodeCompletionResponse,
     CodeSnippetContext,
     CompletionRequest,
     CompletionResponse, CreateContextRequest, CreateContextResponse,
@@ -13,7 +17,7 @@ import {
     Modify,
     PredictRequest,
     ProcessRequest,
-    ProcessResponse, RegisterContextRequest, RegisterContextResponse, RequiredSourceContext, SourceContext
+    ProcessResponse, RegisterContextRequest, RegisterContextResponse, RequiredSourceContext, SourceContext,
 } from "./model/model";
 import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
@@ -42,6 +46,10 @@ import {RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse}
 import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Output";
 import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
+import { AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest } from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
+import { AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse } from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
+import { AssistantCompletionRequest as CodemakerAssistantCompletionRequest } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
+import { AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
 
 export class Client {
 
@@ -97,6 +105,18 @@ export class Client {
         const registerContextRequest = this.createRegisterContextRequest(request);
         const registerContextResponse = await this.doRegisterContext(registerContextRequest);
         return this.createRegisterContextResponse(registerContextResponse);
+    }
+
+    async assistantCompletion(request: AssistantCompletionRequest) {
+        const assistantCompletionRequest = this.createAssistantCompletionRequest(request);
+        const assistantCompletionResponse = await this.doAssistantCompletion(assistantCompletionRequest);
+        return this.createAssistantCompletionResponse(assistantCompletionResponse);
+    }
+
+    async assistantCodeCompletion(request: AssistantCodeCompletionRequest) {
+        const assistantCodeCompletionRequest = this.createAssistantCodeCompletionRequest(request);
+        const assistantCodeCompletionResponse = await this.doAssistantCodeCompletion(assistantCodeCompletionRequest);
+        return this.createAssistantCodeCompletionResponse(assistantCodeCompletionResponse);
     }
 
     private createCompletionRequest(request: CompletionRequest): CodemakerCompletionRequest {
@@ -267,6 +287,57 @@ export class Client {
 
     private createRegisterContextResponse(createContextResponse: CodemakerRegisterSourceContextResponse): RegisterContextResponse {
         return {};
+    }
+
+    private createAssistantCompletionRequest(request: AssistantCompletionRequest): CodemakerAssistantCompletionRequest {
+        return {
+            message: request.message,
+        };
+    }
+
+    private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest) {
+        return new Promise<CodemakerAssistantCompletionResponse>((resolve, reject) => {
+            this.client.AssistantCompletion(assistantCompletionRequest, this.createMetadata(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
+    }
+
+    private createAssistantCompletionResponse(assistantCompletionResponse: CodemakerAssistantCompletionResponse): AssistantCompletionResponse {
+        return {
+            message: assistantCompletionResponse.message,
+        };
+    }
+
+    private createAssistantCodeCompletionRequest(request: AssistantCodeCompletionRequest): CodemakerAssistantCodeCompletionRequest {
+        return {
+            message: request.message,
+            language: request.language,
+            input: this.createInput(request.input)
+        };
+    }
+
+    private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest) {
+        return new Promise<CodemakerAssistantCodeCompletionResponse>((resolve, reject) => {
+            this.client.AssistantCodeCompletion(assistantCodeCompletionRequest, this.createMetadata(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
+    }
+
+    private createAssistantCodeCompletionResponse(assistantCodeCompletionResponse: CodemakerAssistantCodeCompletionResponse): AssistantCodeCompletionResponse {
+        return {
+            message: assistantCodeCompletionResponse.message,
+            output: this.createOutput(assistantCodeCompletionResponse.output!)
+        };
     }
 
     private createInput(input: Input) {
