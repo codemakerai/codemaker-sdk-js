@@ -11,6 +11,10 @@ export interface ProtoGrpcType {
   ai: {
     codemaker: {
       service: {
+        AssistantCodeCompletionRequest: MessageTypeDefinition
+        AssistantCodeCompletionResponse: MessageTypeDefinition
+        AssistantCompletionRequest: MessageTypeDefinition
+        AssistantCompletionResponse: MessageTypeDefinition
         CodeSnippetContext: MessageTypeDefinition
         CodemakerService: SubtypeConstructor<typeof grpc.Client, _ai_codemaker_service_CodemakerServiceClient> & { service: _ai_codemaker_service_CodemakerServiceDefinition }
         CompletionOptions: MessageTypeDefinition

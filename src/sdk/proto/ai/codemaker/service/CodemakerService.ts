@@ -2,6 +2,10 @@
 
 import type * as grpc from '@grpc/grpc-js'
 import type { MethodDefinition } from '@grpc/proto-loader'
+import type { AssistantCodeCompletionRequest as _ai_codemaker_service_AssistantCodeCompletionRequest, AssistantCodeCompletionRequest__Output as _ai_codemaker_service_AssistantCodeCompletionRequest__Output } from '../../../ai/codemaker/service/AssistantCodeCompletionRequest';
+import type { AssistantCodeCompletionResponse as _ai_codemaker_service_AssistantCodeCompletionResponse, AssistantCodeCompletionResponse__Output as _ai_codemaker_service_AssistantCodeCompletionResponse__Output } from '../../../ai/codemaker/service/AssistantCodeCompletionResponse';
+import type { AssistantCompletionRequest as _ai_codemaker_service_AssistantCompletionRequest, AssistantCompletionRequest__Output as _ai_codemaker_service_AssistantCompletionRequest__Output } from '../../../ai/codemaker/service/AssistantCompletionRequest';
+import type { AssistantCompletionResponse as _ai_codemaker_service_AssistantCompletionResponse, AssistantCompletionResponse__Output as _ai_codemaker_service_AssistantCompletionResponse__Output } from '../../../ai/codemaker/service/AssistantCompletionResponse';
 import type { CompletionRequest as _ai_codemaker_service_CompletionRequest, CompletionRequest__Output as _ai_codemaker_service_CompletionRequest__Output } from '../../../ai/codemaker/service/CompletionRequest';
 import type { CompletionResponse as _ai_codemaker_service_CompletionResponse, CompletionResponse__Output as _ai_codemaker_service_CompletionResponse__Output } from '../../../ai/codemaker/service/CompletionResponse';
 import type { CreateSourceContextRequest as _ai_codemaker_service_CreateSourceContextRequest, CreateSourceContextRequest__Output as _ai_codemaker_service_CreateSourceContextRequest__Output } from '../../../ai/codemaker/service/CreateSourceContextRequest';
@@ -16,6 +20,24 @@ import type { RegisterSourceContextRequest as _ai_codemaker_service_RegisterSour
 import type { RegisterSourceContextResponse as _ai_codemaker_service_RegisterSourceContextResponse, RegisterSourceContextResponse__Output as _ai_codemaker_service_RegisterSourceContextResponse__Output } from '../../../ai/codemaker/service/RegisterSourceContextResponse';
 
 export interface CodemakerServiceClient extends grpc.Client {
+  AssistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCodeCompletion(argument: _ai_codemaker_service_AssistantCodeCompletionRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCodeCompletionResponse__Output>): grpc.ClientUnaryCall;
+  
+  AssistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  AssistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  
   Completion(argument: _ai_codemaker_service_CompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_CompletionResponse__Output>): grpc.ClientUnaryCall;
   Completion(argument: _ai_codemaker_service_CompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_CompletionResponse__Output>): grpc.ClientUnaryCall;
   Completion(argument: _ai_codemaker_service_CompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_CompletionResponse__Output>): grpc.ClientUnaryCall;
@@ -73,6 +95,10 @@ export interface CodemakerServiceClient extends grpc.Client {
 }
 
 export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementation {
+  AssistantCodeCompletion: grpc.handleUnaryCall<_ai_codemaker_service_AssistantCodeCompletionRequest__Output, _ai_codemaker_service_AssistantCodeCompletionResponse>;
+  
+  AssistantCompletion: grpc.handleUnaryCall<_ai_codemaker_service_AssistantCompletionRequest__Output, _ai_codemaker_service_AssistantCompletionResponse>;
+  
   Completion: grpc.handleUnaryCall<_ai_codemaker_service_CompletionRequest__Output, _ai_codemaker_service_CompletionResponse>;
   
   CreateContext: grpc.handleUnaryCall<_ai_codemaker_service_CreateSourceContextRequest__Output, _ai_codemaker_service_CreateSourceContextResponse>;
@@ -88,6 +114,8 @@ export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementat
 }
 
 export interface CodemakerServiceDefinition extends grpc.ServiceDefinition {
+  AssistantCodeCompletion: MethodDefinition<_ai_codemaker_service_AssistantCodeCompletionRequest, _ai_codemaker_service_AssistantCodeCompletionResponse, _ai_codemaker_service_AssistantCodeCompletionRequest__Output, _ai_codemaker_service_AssistantCodeCompletionResponse__Output>
+  AssistantCompletion: MethodDefinition<_ai_codemaker_service_AssistantCompletionRequest, _ai_codemaker_service_AssistantCompletionResponse, _ai_codemaker_service_AssistantCompletionRequest__Output, _ai_codemaker_service_AssistantCompletionResponse__Output>
   Completion: MethodDefinition<_ai_codemaker_service_CompletionRequest, _ai_codemaker_service_CompletionResponse, _ai_codemaker_service_CompletionRequest__Output, _ai_codemaker_service_CompletionResponse__Output>
   CreateContext: MethodDefinition<_ai_codemaker_service_CreateSourceContextRequest, _ai_codemaker_service_CreateSourceContextResponse, _ai_codemaker_service_CreateSourceContextRequest__Output, _ai_codemaker_service_CreateSourceContextResponse__Output>
   DiscoverContext: MethodDefinition<_ai_codemaker_service_DiscoverSourceContextRequest, _ai_codemaker_service_DiscoverSourceContextResponse, _ai_codemaker_service_DiscoverSourceContextRequest__Output, _ai_codemaker_service_DiscoverSourceContextResponse__Output>
