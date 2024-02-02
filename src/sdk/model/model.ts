@@ -52,24 +52,25 @@ export type RegisterContextRequest = {
 
 export type RegisterContextResponse = {};
 
+export type AssistantCompletionRequest = {
+    message: string;
+};
+
+export type AssistantCompletionResponse = {
+    message: string;
+};
+
 export type AssistantCodeCompletionRequest = {
     message: string;
     language: Language;
     input: Input;
-}
+    options?: Options;
+};
 
 export type AssistantCodeCompletionResponse = {
     message: string;
     output: Output;
-}
-
-export type AssistantCompletionRequest = {
-    message: string;
-}
-
-export type AssistantCompletionResponse = {
-    message: string;
-}
+};
 
 export type Process = {
     mode: Mode;

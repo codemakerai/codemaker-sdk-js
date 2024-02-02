@@ -11,6 +11,7 @@ export interface ProtoGrpcType {
   ai: {
     codemaker: {
       service: {
+        AssistantCodeCompletionOptions: MessageTypeDefinition
         AssistantCodeCompletionRequest: MessageTypeDefinition
         AssistantCodeCompletionResponse: MessageTypeDefinition
         AssistantCompletionRequest: MessageTypeDefinition
