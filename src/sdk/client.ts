@@ -57,6 +57,8 @@ export class Client {
 
     private static readonly protoFile = __dirname + '/proto/codemakerai.proto';
 
+    private static readonly defaultTimeoutInMillis = 120000;
+
     private readonly enableCompression = true;
 
     private readonly minimumCompressionPayloadSize = 2048;
@@ -135,7 +137,7 @@ export class Client {
 
     private async doCompletion(completionRequest: CodemakerCompletionRequest) {
         return new Promise<CodemakerCompletionResponse>((resolve, reject) => {
-            this.client.Completion(completionRequest, this.createMetadata(), (error, resp) => {
+            this.client.Completion(completionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -169,7 +171,7 @@ export class Client {
 
     private async doProcess(processRequest: CodemakerProcessRequest) {
         return new Promise<CodemakerProcessResponse>((resolve, reject) => {
-            this.client.Process(processRequest, this.createMetadata(), (error, resp) => {
+            this.client.Process(processRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -198,7 +200,7 @@ export class Client {
 
     private async doPredict(predictRequest: CodemakerPredictRequest) {
         return new Promise<CodemakerPredictResponse>((resolve, reject) => {
-            this.client.Predict(predictRequest, this.createMetadata(), (error, resp) => {
+            this.client.Predict(predictRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -227,7 +229,7 @@ export class Client {
 
     private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest) {
         return new Promise<CodemakerDiscoverSourceContextResponse>((resolve, reject) => {
-            this.client.DiscoverContext(discoverContextRequest, this.createMetadata(), (error, resp) => {
+            this.client.DiscoverContext(discoverContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -250,7 +252,7 @@ export class Client {
 
     private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest) {
         return new Promise<CodemakerCreateSourceContextResponse>((resolve, reject) => {
-            this.client.CreateContext(createContextRequest, this.createMetadata(), (error, resp) => {
+            this.client.CreateContext(createContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -275,7 +277,7 @@ export class Client {
 
     private async doRegisterContext(createContextRequest: CodemakerRegisterSourceContextRequest) {
         return new Promise<CodemakerRegisterSourceContextResponse>((resolve, reject) => {
-            this.client.RegisterContext(createContextRequest, this.createMetadata(), (error, resp) => {
+            this.client.RegisterContext(createContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -297,7 +299,7 @@ export class Client {
 
     private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest) {
         return new Promise<CodemakerAssistantCompletionResponse>((resolve, reject) => {
-            this.client.AssistantCompletion(assistantCompletionRequest, this.createMetadata(), (error, resp) => {
+            this.client.AssistantCompletion(assistantCompletionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -323,7 +325,7 @@ export class Client {
 
     private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest) {
         return new Promise<CodemakerAssistantCodeCompletionResponse>((resolve, reject) => {
-            this.client.AssistantCodeCompletion(assistantCodeCompletionRequest, this.createMetadata(), (error, resp) => {
+            this.client.AssistantCodeCompletion(assistantCodeCompletionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
                 if (error) {
                     reject(error);
                     return;
@@ -424,6 +426,13 @@ export class Client {
         const metadata = new grpc.Metadata();
         metadata.set("Authorization", `Bearer ${this.apiKeyProvider()}`);
         return metadata;
+    }
+
+    private createOptions() {
+        const deadline = new Date(Date.now() + Client.defaultTimeoutInMillis);
+        return {
+            deadline: deadline
+        };
     }
 
     private loadProtoDefinition() {
