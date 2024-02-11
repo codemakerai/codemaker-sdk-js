@@ -127,6 +127,7 @@ export enum Mode {
 }
 
 export enum Language {
+    c = "C",
     java = "JAVA",
     javascript = "JAVASCRIPT",
     typescript = "TYPESCRIPT",
