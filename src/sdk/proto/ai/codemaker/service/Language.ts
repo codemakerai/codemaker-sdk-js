@@ -3,6 +3,7 @@
 export const Language = {
   SQL: 'SQL',
   C: 'C',
+  CPP: 'CPP',
   JAVA: 'JAVA',
   JAVASCRIPT: 'JAVASCRIPT',
   CSHARP: 'CSHARP',
@@ -16,6 +17,8 @@ export type Language =
   | 0
   | 'C'
   | 1
+  | 'CPP'
+  | 3
   | 'JAVA'
   | 7
   | 'JAVASCRIPT'
