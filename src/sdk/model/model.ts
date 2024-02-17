@@ -135,6 +135,7 @@ export enum Language {
     kotlin = "KOTLIN",
     go = "GO",
     csharp = "CSHARP",
+    php = "PHP",
 }
 
 export enum Modify {

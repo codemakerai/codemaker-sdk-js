@@ -5,6 +5,7 @@ export const Language = {
   C: 'C',
   CPP: 'CPP',
   JAVA: 'JAVA',
+  PHP: 'PHP',
   JAVASCRIPT: 'JAVASCRIPT',
   CSHARP: 'CSHARP',
   GO: 'GO',
@@ -21,6 +22,8 @@ export type Language =
   | 3
   | 'JAVA'
   | 7
+  | 'PHP'
+  | 8
   | 'JAVASCRIPT'
   | 9
   | 'CSHARP'
