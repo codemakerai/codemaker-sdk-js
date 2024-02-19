@@ -136,6 +136,7 @@ export enum Language {
     go = "GO",
     csharp = "CSHARP",
     php = "PHP",
+    rust = "RUST",
 }
 
 export enum Modify {

@@ -11,6 +11,7 @@ export const Language = {
   GO: 'GO',
   KOTLIN: 'KOTLIN',
   TYPESCRIPT: 'TYPESCRIPT',
+  RUST: 'RUST',
 } as const;
 
 export type Language =
@@ -34,5 +35,7 @@ export type Language =
   | 19
   | 'TYPESCRIPT'
   | 20
+  | 'RUST'
+  | 23
 
 export type Language__Output = typeof Language[keyof typeof Language]
