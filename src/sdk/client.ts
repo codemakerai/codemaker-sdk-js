@@ -165,6 +165,7 @@ export class Client {
                 prompt: request.options?.prompt,
                 detectSyntaxErrors: request.options?.detectSyntaxErrors,
                 contextId: request.options?.contextId,
+                model: request.options?.model,
             }
         };
     }

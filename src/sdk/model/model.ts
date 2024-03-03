@@ -112,6 +112,7 @@ export type Options = {
     readonly detectSyntaxErrors?: boolean;
     readonly codeSnippetContexts?: CodeSnippetContext[];
     readonly contextId?: string;
+    readonly model?: string;
 };
 
 export enum Mode {

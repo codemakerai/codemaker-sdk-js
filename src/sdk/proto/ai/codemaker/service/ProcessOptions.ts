@@ -8,6 +8,7 @@ export interface ProcessOptions {
   'prompt'?: (string);
   'detectSyntaxErrors'?: (boolean);
   'contextId'?: (string);
+  'model'?: (string);
 }
 
 export interface ProcessOptions__Output {
@@ -16,4 +17,5 @@ export interface ProcessOptions__Output {
   'prompt': (string);
   'detectSyntaxErrors': (boolean);
   'contextId': (string);
+  'model': (string);
 }
