@@ -7,6 +7,7 @@ export interface CompletionOptions {
   'allowMultiLineAutocomplete'?: (boolean);
   'codeSnippetContexts'?: (_ai_codemaker_service_CodeSnippetContext)[];
   'contextId'?: (string);
+  'model'?: (string);
 }
 
 export interface CompletionOptions__Output {
@@ -14,4 +15,5 @@ export interface CompletionOptions__Output {
   'allowMultiLineAutocomplete': (boolean);
   'codeSnippetContexts': (_ai_codemaker_service_CodeSnippetContext__Output)[];
   'contextId': (string);
+  'model': (string);
 }

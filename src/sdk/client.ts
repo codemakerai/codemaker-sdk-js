@@ -131,6 +131,7 @@ export class Client {
                 allowMultiLineAutocomplete: request.options?.allowMultiLineAutocomplete,
                 codeSnippetContexts: this.mapCodeSnippetContexts(request.options?.codeSnippetContexts),
                 contextId: request.options?.contextId,
+                model: request.options?.model,
             }
         };
     }
@@ -320,7 +321,11 @@ export class Client {
         return {
             message: request.message,
             language: request.language,
-            input: this.createInput(request.input)
+            input: this.createInput(request.input),
+            options: {
+                contextId: request.options?.contextId,
+                model: request.options?.model,
+            }
         };
     }
 

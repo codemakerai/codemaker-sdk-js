@@ -3,8 +3,10 @@
 
 export interface AssistantCodeCompletionOptions {
   'contextId'?: (string);
+  'model'?: (string);
 }
 
 export interface AssistantCodeCompletionOptions__Output {
   'contextId': (string);
+  'model': (string);
 }
