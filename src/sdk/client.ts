@@ -195,7 +195,8 @@ export class Client {
             language: request.language,
             input: this.createInput(request.input),
             options: {
-                contextId: request.options?.contextId
+                contextId: request.options?.contextId,
+                model: request.options?.model,
             }
         };
     }
