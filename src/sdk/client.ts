@@ -60,6 +60,8 @@ export class Client {
 
     private static readonly defaultTimeoutInMillis = 120000;
 
+    private static readonly defaultMaxRetries = 5;
+
     private readonly enableCompression = true;
 
     private readonly minimumCompressionPayloadSize = 2048;
@@ -288,13 +290,21 @@ export class Client {
 
     private doCall<TResp, TReq>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq) {
         return new Promise<TResp>((resolve, reject) => {
-            operation(request, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
+            this.doRequest(operation, request, resolve, reject, Client.defaultMaxRetries);
+        });
+    }
+
+    private doRequest<TReq, TResp>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq, resolve: (value: TResp | PromiseLike<TResp>) => void, reject: (reason?: any) => void, retry: number) {
+        operation(request, this.createMetadata(), this.createOptions(), (error, resp) => {
+            if (error) {
+                if (retry <= 0) {
                     reject(error);
-                    return;
+                } else {
+
                 }
+            } else {
                 resolve(resp!);
-            });
+            }
         });
     }
 
