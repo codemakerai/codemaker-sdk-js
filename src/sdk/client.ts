@@ -24,6 +24,7 @@ import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/se
 import {PredictRequest as CodemakerPredictRequest} from "./proto/ai/codemaker/service/PredictRequest";
 import {CodeSnippetContext as CodemakerCodeSnippetContext} from "./proto/ai/codemaker/service/CodeSnippetContext";
 import {
+    type CompletionResponse__Output as _ai_codemaker_service_CompletionResponse__Output,
     CompletionResponse__Output as CodemakerCompletionResponse
 } from "./proto/ai/codemaker/service/CompletionResponse";
 import {ProcessResponse__Output as CodemakerProcessResponse} from "./proto/ai/codemaker/service/ProcessResponse";
@@ -136,16 +137,8 @@ export class Client {
         };
     }
 
-    private async doCompletion(completionRequest: CodemakerCompletionRequest) {
-        return new Promise<CodemakerCompletionResponse>((resolve, reject) => {
-            this.client.Completion(completionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doCompletion(completionRequest: CodemakerCompletionRequest): Promise<CodemakerCompletionResponse> {
+        return this.doCall(this.client.Completion, completionRequest);
     }
 
     private createCompletionResponse(completionResponse: CodemakerCompletionResponse): CompletionResponse {
@@ -171,16 +164,8 @@ export class Client {
         };
     }
 
-    private async doProcess(processRequest: CodemakerProcessRequest) {
-        return new Promise<CodemakerProcessResponse>((resolve, reject) => {
-            this.client.Process(processRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doProcess(processRequest: CodemakerProcessRequest): Promise<CodemakerProcessResponse> {
+        return this.doCall(this.client.Process, processRequest);
     }
 
     private createProcessResponse(processResponse: CodemakerProcessResponse): ProcessResponse {
@@ -201,16 +186,8 @@ export class Client {
         };
     }
 
-    private async doPredict(predictRequest: CodemakerPredictRequest) {
-        return new Promise<CodemakerPredictResponse>((resolve, reject) => {
-            this.client.Predict(predictRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doPredict(predictRequest: CodemakerPredictRequest): Promise<CodemakerPredictResponse> {
+        return this.doCall(this.client.Predict, predictRequest);
     }
 
     private createPredictResponse(predictResponse: CodemakerPredictResponse): PredictResponse {
@@ -230,16 +207,8 @@ export class Client {
         };
     }
 
-    private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest) {
-        return new Promise<CodemakerDiscoverSourceContextResponse>((resolve, reject) => {
-            this.client.DiscoverContext(discoverContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest): Promise<CodemakerDiscoverSourceContextResponse> {
+        return this.doCall(this.client.DiscoverContext, discoverContextRequest);
     }
 
     private createDiscoverContextResponse(discoverContextResponse: CodemakerDiscoverSourceContextResponse): DiscoverContextResponse {
@@ -253,16 +222,8 @@ export class Client {
         return {};
     }
 
-    private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest) {
-        return new Promise<CodemakerCreateSourceContextResponse>((resolve, reject) => {
-            this.client.CreateContext(createContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest): Promise<CodemakerCreateSourceContextResponse> {
+        return this.doCall(this.client.CreateContext, createContextRequest);
     }
 
     private createCreateContextResponse(createContextResponse: CodemakerCreateSourceContextResponse): CreateContextResponse {
@@ -278,16 +239,8 @@ export class Client {
         };
     }
 
-    private async doRegisterContext(createContextRequest: CodemakerRegisterSourceContextRequest) {
-        return new Promise<CodemakerRegisterSourceContextResponse>((resolve, reject) => {
-            this.client.RegisterContext(createContextRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private async doRegisterContext(registerContextRequest: CodemakerRegisterSourceContextRequest): Promise<CodemakerRegisterSourceContextResponse> {
+        return this.doCall(this.client.RegisterContext, registerContextRequest);
     }
 
     private createRegisterContextResponse(createContextResponse: CodemakerRegisterSourceContextResponse): RegisterContextResponse {
@@ -300,16 +253,8 @@ export class Client {
         };
     }
 
-    private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest) {
-        return new Promise<CodemakerAssistantCompletionResponse>((resolve, reject) => {
-            this.client.AssistantCompletion(assistantCompletionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest): Promise<CodemakerAssistantCompletionResponse> {
+        return this.doCall(this.client.AssistantCompletion, assistantCompletionRequest);
     }
 
     private createAssistantCompletionResponse(assistantCompletionResponse: CodemakerAssistantCompletionResponse): AssistantCompletionResponse {
@@ -330,16 +275,8 @@ export class Client {
         };
     }
 
-    private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest) {
-        return new Promise<CodemakerAssistantCodeCompletionResponse>((resolve, reject) => {
-            this.client.AssistantCodeCompletion(assistantCodeCompletionRequest, this.createMetadata(), this.createOptions(), (error, resp) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(resp!);
-            });
-        });
+    private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest) : Promise<CodemakerAssistantCodeCompletionResponse> {
+        return this.doCall(this.client.AssistantCodeCompletion, assistantCodeCompletionRequest);
     }
 
     private createAssistantCodeCompletionResponse(assistantCodeCompletionResponse: CodemakerAssistantCodeCompletionResponse): AssistantCodeCompletionResponse {
@@ -347,6 +284,18 @@ export class Client {
             message: assistantCodeCompletionResponse.message,
             output: this.createOutput(assistantCodeCompletionResponse.output!)
         };
+    }
+
+    private doCall<TResp, TReq>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq) {
+        return new Promise<TResp>((resolve, reject) => {
+            operation(request, this.createMetadata(), this.createOptions(), (error, resp) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(resp!);
+            });
+        });
     }
 
     private createInput(input: Input) {
