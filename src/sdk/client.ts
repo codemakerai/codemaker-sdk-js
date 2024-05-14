@@ -51,6 +51,8 @@ import { AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionReque
 import { AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse } from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
 import { AssistantCompletionRequest as CodemakerAssistantCompletionRequest } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
 import { AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
+import {StatusObject} from "@grpc/grpc-js";
+import {Status} from "@grpc/grpc-js/src/constants";
 
 export class Client {
 
@@ -297,10 +299,10 @@ export class Client {
     private doRequest<TReq, TResp>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq, resolve: (value: TResp | PromiseLike<TResp>) => void, reject: (reason?: any) => void, retry: number) {
         operation(request, this.createMetadata(), this.createOptions(), (error, resp) => {
             if (error) {
-                if (retry <= 0) {
+                if (retry <= 0 || !this.isRetryable(error)) {
                     reject(error);
                 } else {
-
+                    this.doRequest(operation, request, resolve, reject, retry - 1);
                 }
             } else {
                 resolve(resp!);
@@ -410,5 +412,9 @@ export class Client {
             oneofs: true
         });
         return (grpc.loadPackageDefinition(packageDefinition) as any) as ProtoGrpcType;
+    }
+
+    private isRetryable(error: StatusObject & Error) {
+        return error.code === Status.DEADLINE_EXCEEDED;
     }
 }
