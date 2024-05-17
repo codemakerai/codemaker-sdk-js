@@ -51,8 +51,7 @@ import { AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionReque
 import { AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse } from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
 import { AssistantCompletionRequest as CodemakerAssistantCompletionRequest } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
 import { AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
-import {StatusObject} from "@grpc/grpc-js";
-import {Status} from "@grpc/grpc-js/src/constants";
+import {StatusObject, status} from "@grpc/grpc-js";
 
 export class Client {
 
@@ -415,6 +414,6 @@ export class Client {
     }
 
     private isRetryable(error: StatusObject & Error) {
-        return error.code === Status.DEADLINE_EXCEEDED;
+        return error.code === status.DEADLINE_EXCEEDED;
     }
 }
