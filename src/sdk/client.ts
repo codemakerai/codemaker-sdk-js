@@ -24,7 +24,6 @@ import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/se
 import {PredictRequest as CodemakerPredictRequest} from "./proto/ai/codemaker/service/PredictRequest";
 import {CodeSnippetContext as CodemakerCodeSnippetContext} from "./proto/ai/codemaker/service/CodeSnippetContext";
 import {
-    type CompletionResponse__Output as _ai_codemaker_service_CompletionResponse__Output,
     CompletionResponse__Output as CodemakerCompletionResponse
 } from "./proto/ai/codemaker/service/CompletionResponse";
 import {ProcessResponse__Output as CodemakerProcessResponse} from "./proto/ai/codemaker/service/ProcessResponse";
@@ -290,8 +289,9 @@ export class Client {
     }
 
     private doCall<TResp, TReq>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq) {
+        const boundOperation = operation.bind(this.client);
         return new Promise<TResp>((resolve, reject) => {
-            this.doRequest(operation, request, resolve, reject, Client.defaultMaxRetries);
+            this.doRequest(boundOperation, request, resolve, reject, Client.defaultMaxRetries);
         });
     }
 
