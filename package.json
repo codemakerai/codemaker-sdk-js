@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/codemakerai/codemaker-sdk-js#readme",
   "dependencies": {
-    "@grpc/grpc-js": "^1.10.8",
+    "@grpc/grpc-js": "^1.10.9",
     "@grpc/proto-loader": "^0.7.13",
     "typescript": "^5.4.5"
   },
