@@ -1,23 +1,32 @@
+// Copyright 2023-2024 CodeMaker AI Inc. All rights reserved.
+
 import * as grpc from '@grpc/grpc-js';
+import {status, StatusObject} from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import {gzipSync, unzipSync} from 'node:zlib';
-const { createHash } = require('crypto');
 import {ProtoGrpcType} from "./proto/codemakerai";
 import {CodemakerServiceClient} from "./proto/ai/codemaker/service/CodemakerService";
 import {
     AssistantCodeCompletionRequest,
+    AssistantCodeCompletionResponse,
     AssistantCompletionRequest,
     AssistantCompletionResponse,
-    AssistantCodeCompletionResponse,
     CodeSnippetContext,
     CompletionRequest,
-    CompletionResponse, CreateContextRequest, CreateContextResponse,
-    DiscoverContextRequest, DiscoverContextResponse,
+    CompletionResponse,
+    CreateContextRequest,
+    CreateContextResponse,
+    DiscoverContextRequest,
+    DiscoverContextResponse,
     Input,
     Modify,
     PredictRequest,
     ProcessRequest,
-    ProcessResponse, RegisterContextRequest, RegisterContextResponse, RequiredSourceContext, SourceContext,
+    ProcessResponse,
+    RegisterContextRequest,
+    RegisterContextResponse,
+    RequiredSourceContext,
+    SourceContext,
 } from "./model/model";
 import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
@@ -31,47 +40,82 @@ import {
     PredictResponse,
     PredictResponse__Output as CodemakerPredictResponse
 } from "./proto/ai/codemaker/service/PredictResponse";
-import {DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest} from "./proto/ai/codemaker/service/DiscoverSourceContextRequest";
-import {DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse} from "./proto/ai/codemaker/service/DiscoverSourceContextResponse";
 import {
-    SourceContext as CodemakerSourceContext
-} from "./proto/ai/codemaker/service/SourceContext";
+    DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest
+} from "./proto/ai/codemaker/service/DiscoverSourceContextRequest";
+import {
+    DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse
+} from "./proto/ai/codemaker/service/DiscoverSourceContextResponse";
+import {SourceContext as CodemakerSourceContext} from "./proto/ai/codemaker/service/SourceContext";
 import {
     RequiredSourceContext as CodemakerRequiredSourceContext
 } from "./proto/ai/codemaker/service/RequiredSourceContext";
-import {CreateSourceContextRequest as CodemakerCreateSourceContextRequest} from "./proto/ai/codemaker/service/CreateSourceContextRequest";
-import {CreateSourceContextResponse as CodemakerCreateSourceContextResponse} from "./proto/ai/codemaker/service/CreateSourceContextResponse";
-import {RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest} from "./proto/ai/codemaker/service/RegisterSourceContextRequest";
-import {RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse} from "./proto/ai/codemaker/service/RegisterSourceContextResponse";
+import {
+    CreateSourceContextRequest as CodemakerCreateSourceContextRequest
+} from "./proto/ai/codemaker/service/CreateSourceContextRequest";
+import {
+    CreateSourceContextResponse as CodemakerCreateSourceContextResponse
+} from "./proto/ai/codemaker/service/CreateSourceContextResponse";
+import {
+    RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest
+} from "./proto/ai/codemaker/service/RegisterSourceContextRequest";
+import {
+    RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse
+} from "./proto/ai/codemaker/service/RegisterSourceContextResponse";
 import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Output";
 import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
-import { AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest } from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
-import { AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse } from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
-import { AssistantCompletionRequest as CodemakerAssistantCompletionRequest } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
-import { AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
-import {StatusObject, status} from "@grpc/grpc-js";
+import {
+    AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest
+} from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
+import {
+    AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse
+} from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
+import {
+    AssistantCompletionRequest as CodemakerAssistantCompletionRequest
+} from "./proto/ai/codemaker/service/AssistantCompletionRequest";
+import {
+    AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse
+} from "./proto/ai/codemaker/service/AssistantCompletionResponse";
+import {Config} from "./config";
+
+const {createHash} = require('crypto');
 
 export class Client {
 
-    private static readonly endpoint = 'process.codemaker.ai';
-
     private static readonly protoFile = __dirname + '/proto/codemakerai.proto';
+
+    private static readonly defaultEndpoint = 'process.codemaker.ai';
 
     private static readonly defaultTimeoutInMillis = 120000;
 
     private static readonly defaultMaxRetries = 5;
 
-    private readonly enableCompression = true;
+    private static readonly defaultEnableCompression = true;
 
-    private readonly minimumCompressionPayloadSize = 2048;
+    private static readonly defaultMinimumCompressionPayloadSize = 5;
+
+    private readonly maxRetries;
+
+    private readonly timeoutInMillis;
+
+    private readonly enableCompression;
+
+    private readonly minimumCompressionPayloadSize;
 
     private readonly client: CodemakerServiceClient;
 
-    constructor(private readonly apiKeyProvider: () => string) {
+    constructor(private readonly apiKeyProvider: () => string, private readonly config?: Config) {
         const proto = this.loadProtoDefinition();
+
+        const endpoint = config?.endpoint ?? Client.defaultEndpoint;
+        this.maxRetries = config?.maxRetries ?? Client.defaultMaxRetries;
+        this.timeoutInMillis = config?.timeoutInMillis ?? Client.defaultTimeoutInMillis;
+        this.enableCompression = config?.enableCompression ?? Client.defaultEnableCompression;
+        this.minimumCompressionPayloadSize = config?.minimumCompressionPayloadSize ?? Client.defaultMinimumCompressionPayloadSize;
+
         this.client = new proto.ai.codemaker.service.CodemakerService(
-            Client.endpoint,
+            endpoint,
             grpc.credentials.createSsl()
         );
     }
@@ -277,7 +321,7 @@ export class Client {
         };
     }
 
-    private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest) : Promise<CodemakerAssistantCodeCompletionResponse> {
+    private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest): Promise<CodemakerAssistantCodeCompletionResponse> {
         return this.doCall(this.client.AssistantCodeCompletion, assistantCodeCompletionRequest);
     }
 
@@ -291,7 +335,7 @@ export class Client {
     private doCall<TResp, TReq>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq) {
         const boundOperation = operation.bind(this.client);
         return new Promise<TResp>((resolve, reject) => {
-            this.doRequest(boundOperation, request, resolve, reject, Client.defaultMaxRetries);
+            this.doRequest(boundOperation, request, resolve, reject, this.maxRetries);
         });
     }
 
@@ -361,15 +405,15 @@ export class Client {
         return modify === Modify.replace ? "REPLACE" : "UNMODIFIED";
     }
 
-    private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined  {
+    private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined {
         if (!codeSnippetContexts) {
             return undefined;
         }
         return codeSnippetContexts.map(value => ({
-              language: value.language,
-              snippet: value.snippet,
-              relativePath: value.relativePath,
-              score: value.score,
+            language: value.language,
+            snippet: value.snippet,
+            relativePath: value.relativePath,
+            score: value.score,
         }));
     }
 
@@ -396,7 +440,7 @@ export class Client {
     }
 
     private createOptions() {
-        const deadline = new Date(Date.now() + Client.defaultTimeoutInMillis);
+        const deadline = new Date(Date.now() + this.timeoutInMillis);
         return {
             deadline: deadline
         };
