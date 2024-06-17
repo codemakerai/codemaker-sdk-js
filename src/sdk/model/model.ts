@@ -57,6 +57,8 @@ export type AssistantCompletionRequest = {
 };
 
 export type AssistantCompletionResponse = {
+    sessionId: string;
+    messageId: string;
     message: string;
 };
 
@@ -68,6 +70,8 @@ export type AssistantCodeCompletionRequest = {
 };
 
 export type AssistantCodeCompletionResponse = {
+    sessionId: string;
+    messageId: string;
     message: string;
     output: Output;
 };

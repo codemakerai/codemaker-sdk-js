@@ -305,6 +305,8 @@ export class Client {
 
     private createAssistantCompletionResponse(assistantCompletionResponse: CodemakerAssistantCompletionResponse): AssistantCompletionResponse {
         return {
+            sessionId: assistantCompletionResponse.sessionId,
+            messageId: assistantCompletionResponse.messageId,
             message: assistantCompletionResponse.message,
         };
     }
@@ -327,6 +329,8 @@ export class Client {
 
     private createAssistantCodeCompletionResponse(assistantCodeCompletionResponse: CodemakerAssistantCodeCompletionResponse): AssistantCodeCompletionResponse {
         return {
+            sessionId: assistantCodeCompletionResponse.sessionId,
+            messageId: assistantCodeCompletionResponse.messageId,
             message: assistantCodeCompletionResponse.message,
             output: this.createOutput(assistantCodeCompletionResponse.output!)
         };
