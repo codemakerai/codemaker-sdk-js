@@ -26,6 +26,7 @@ export interface ProtoGrpcType {
         DiscoverSourceContextRequest: MessageTypeDefinition
         DiscoverSourceContextResponse: MessageTypeDefinition
         Encoding: EnumTypeDefinition
+        IndentationCharacter: EnumTypeDefinition
         Input: MessageTypeDefinition
         Language: EnumTypeDefinition
         Metadata: MessageTypeDefinition
@@ -43,6 +44,7 @@ export interface ProtoGrpcType {
         RequiredSourceContext: MessageTypeDefinition
         Source: MessageTypeDefinition
         SourceContext: MessageTypeDefinition
+        Visibility: EnumTypeDefinition
       }
     }
   }

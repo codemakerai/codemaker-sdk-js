@@ -5,9 +5,13 @@ import type { Output as _ai_codemaker_service_Output, Output__Output as _ai_code
 export interface AssistantCodeCompletionResponse {
   'message'?: (string);
   'output'?: (_ai_codemaker_service_Output | null);
+  'sessionId'?: (string);
+  'messageId'?: (string);
 }
 
 export interface AssistantCodeCompletionResponse__Output {
   'message': (string);
   'output': (_ai_codemaker_service_Output__Output | null);
+  'sessionId': (string);
+  'messageId': (string);
 }

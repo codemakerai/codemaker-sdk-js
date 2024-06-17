@@ -58,6 +58,16 @@ enum Modify {
   REPLACE = 1;
 }
 
+enum IndentationCharacter {
+  SPACE = 0;
+  TAB = 1;
+}
+
+enum Visibility {
+  ALL = 0;
+  PUBLIC = 1;
+}
+
 message Source {
   bytes content = 1;
   Encoding encoding = 2;
@@ -100,6 +110,10 @@ message ProcessOptions {
   bool detectSyntaxErrors = 4;
   string contextId = 5;
   string model = 6;
+  IndentationCharacter indentationCharacter = 7;
+  int32 overrideIndent = 8;
+  int32 minimalLinesLength = 9;
+  Visibility visibility = 10;
 }
 
 message CompletionOptions {
@@ -182,6 +196,8 @@ message AssistantCompletionRequest {
 
 message AssistantCompletionResponse {
   string message = 1;
+  string sessionId = 2;
+  string messageId = 3;
 }
 
 message AssistantCodeCompletionRequest {
@@ -194,4 +210,6 @@ message AssistantCodeCompletionRequest {
 message AssistantCodeCompletionResponse {
   string message = 1;
   Output output = 2;
+  string sessionId = 3;
+  string messageId = 4;
 }

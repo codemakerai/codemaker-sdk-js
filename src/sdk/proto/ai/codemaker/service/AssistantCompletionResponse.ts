@@ -3,8 +3,12 @@
 
 export interface AssistantCompletionResponse {
   'message'?: (string);
+  'sessionId'?: (string);
+  'messageId'?: (string);
 }
 
 export interface AssistantCompletionResponse__Output {
   'message': (string);
+  'sessionId': (string);
+  'messageId': (string);
 }
