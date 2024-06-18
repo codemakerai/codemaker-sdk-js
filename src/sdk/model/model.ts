@@ -76,6 +76,15 @@ export type AssistantCodeCompletionResponse = {
     output: Output;
 };
 
+export type RegisterAssistantFeedbackRequest = {
+    sessionId: string;
+    messageId: string;
+    vote: Vote;
+};
+
+export type RegisterAssistantFeedbackResponse = {
+};
+
 export type Process = {
     mode: Mode;
     language: Language;
@@ -147,4 +156,9 @@ export enum Language {
 export enum Modify {
     none = "NONE",
     replace = "REPLACE"
+}
+
+export enum Vote {
+    upVote = "UP_VOTE",
+    downVote = "DOWN_VOTE"
 }

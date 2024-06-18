@@ -39,12 +39,15 @@ export interface ProtoGrpcType {
         ProcessOptions: MessageTypeDefinition
         ProcessRequest: MessageTypeDefinition
         ProcessResponse: MessageTypeDefinition
+        RegisterAssistantFeedbackRequest: MessageTypeDefinition
+        RegisterAssistantFeedbackResponse: MessageTypeDefinition
         RegisterSourceContextRequest: MessageTypeDefinition
         RegisterSourceContextResponse: MessageTypeDefinition
         RequiredSourceContext: MessageTypeDefinition
         Source: MessageTypeDefinition
         SourceContext: MessageTypeDefinition
         Visibility: EnumTypeDefinition
+        Vote: EnumTypeDefinition
       }
     }
   }

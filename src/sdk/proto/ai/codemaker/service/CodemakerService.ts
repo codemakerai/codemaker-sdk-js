@@ -16,6 +16,8 @@ import type { PredictRequest as _ai_codemaker_service_PredictRequest, PredictReq
 import type { PredictResponse as _ai_codemaker_service_PredictResponse, PredictResponse__Output as _ai_codemaker_service_PredictResponse__Output } from '../../../ai/codemaker/service/PredictResponse';
 import type { ProcessRequest as _ai_codemaker_service_ProcessRequest, ProcessRequest__Output as _ai_codemaker_service_ProcessRequest__Output } from '../../../ai/codemaker/service/ProcessRequest';
 import type { ProcessResponse as _ai_codemaker_service_ProcessResponse, ProcessResponse__Output as _ai_codemaker_service_ProcessResponse__Output } from '../../../ai/codemaker/service/ProcessResponse';
+import type { RegisterAssistantFeedbackRequest as _ai_codemaker_service_RegisterAssistantFeedbackRequest, RegisterAssistantFeedbackRequest__Output as _ai_codemaker_service_RegisterAssistantFeedbackRequest__Output } from '../../../ai/codemaker/service/RegisterAssistantFeedbackRequest';
+import type { RegisterAssistantFeedbackResponse as _ai_codemaker_service_RegisterAssistantFeedbackResponse, RegisterAssistantFeedbackResponse__Output as _ai_codemaker_service_RegisterAssistantFeedbackResponse__Output } from '../../../ai/codemaker/service/RegisterAssistantFeedbackResponse';
 import type { RegisterSourceContextRequest as _ai_codemaker_service_RegisterSourceContextRequest, RegisterSourceContextRequest__Output as _ai_codemaker_service_RegisterSourceContextRequest__Output } from '../../../ai/codemaker/service/RegisterSourceContextRequest';
 import type { RegisterSourceContextResponse as _ai_codemaker_service_RegisterSourceContextResponse, RegisterSourceContextResponse__Output as _ai_codemaker_service_RegisterSourceContextResponse__Output } from '../../../ai/codemaker/service/RegisterSourceContextResponse';
 
@@ -83,6 +85,15 @@ export interface CodemakerServiceClient extends grpc.Client {
   process(argument: _ai_codemaker_service_ProcessRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_ProcessResponse__Output>): grpc.ClientUnaryCall;
   process(argument: _ai_codemaker_service_ProcessRequest, callback: grpc.requestCallback<_ai_codemaker_service_ProcessResponse__Output>): grpc.ClientUnaryCall;
   
+  RegisterAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  RegisterAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  RegisterAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  RegisterAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  registerAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  registerAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  registerAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  registerAssistantFeedback(argument: _ai_codemaker_service_RegisterAssistantFeedbackRequest, callback: grpc.requestCallback<_ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>): grpc.ClientUnaryCall;
+  
   RegisterContext(argument: _ai_codemaker_service_RegisterSourceContextRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterSourceContextResponse__Output>): grpc.ClientUnaryCall;
   RegisterContext(argument: _ai_codemaker_service_RegisterSourceContextRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_RegisterSourceContextResponse__Output>): grpc.ClientUnaryCall;
   RegisterContext(argument: _ai_codemaker_service_RegisterSourceContextRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_RegisterSourceContextResponse__Output>): grpc.ClientUnaryCall;
@@ -109,6 +120,8 @@ export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementat
   
   Process: grpc.handleUnaryCall<_ai_codemaker_service_ProcessRequest__Output, _ai_codemaker_service_ProcessResponse>;
   
+  RegisterAssistantFeedback: grpc.handleUnaryCall<_ai_codemaker_service_RegisterAssistantFeedbackRequest__Output, _ai_codemaker_service_RegisterAssistantFeedbackResponse>;
+  
   RegisterContext: grpc.handleUnaryCall<_ai_codemaker_service_RegisterSourceContextRequest__Output, _ai_codemaker_service_RegisterSourceContextResponse>;
   
 }
@@ -121,5 +134,6 @@ export interface CodemakerServiceDefinition extends grpc.ServiceDefinition {
   DiscoverContext: MethodDefinition<_ai_codemaker_service_DiscoverSourceContextRequest, _ai_codemaker_service_DiscoverSourceContextResponse, _ai_codemaker_service_DiscoverSourceContextRequest__Output, _ai_codemaker_service_DiscoverSourceContextResponse__Output>
   Predict: MethodDefinition<_ai_codemaker_service_PredictRequest, _ai_codemaker_service_PredictResponse, _ai_codemaker_service_PredictRequest__Output, _ai_codemaker_service_PredictResponse__Output>
   Process: MethodDefinition<_ai_codemaker_service_ProcessRequest, _ai_codemaker_service_ProcessResponse, _ai_codemaker_service_ProcessRequest__Output, _ai_codemaker_service_ProcessResponse__Output>
+  RegisterAssistantFeedback: MethodDefinition<_ai_codemaker_service_RegisterAssistantFeedbackRequest, _ai_codemaker_service_RegisterAssistantFeedbackResponse, _ai_codemaker_service_RegisterAssistantFeedbackRequest__Output, _ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>
   RegisterContext: MethodDefinition<_ai_codemaker_service_RegisterSourceContextRequest, _ai_codemaker_service_RegisterSourceContextResponse, _ai_codemaker_service_RegisterSourceContextRequest__Output, _ai_codemaker_service_RegisterSourceContextResponse__Output>
 }

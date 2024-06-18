@@ -2,14 +2,15 @@ syntax = "proto3";
 package ai.codemaker.service;
 
 service CodemakerService {
+  rpc AssistantCompletion (AssistantCompletionRequest) returns (AssistantCompletionResponse);
+  rpc AssistantCodeCompletion (AssistantCodeCompletionRequest) returns (AssistantCodeCompletionResponse);
+  rpc RegisterAssistantFeedback (RegisterAssistantFeedbackRequest) returns (RegisterAssistantFeedbackResponse);
   rpc Completion (CompletionRequest) returns (CompletionResponse);
   rpc Process (ProcessRequest) returns (ProcessResponse);
   rpc Predict (PredictRequest) returns (PredictResponse);
   rpc DiscoverContext (DiscoverSourceContextRequest) returns (DiscoverSourceContextResponse);
   rpc CreateContext (CreateSourceContextRequest) returns (CreateSourceContextResponse);
   rpc RegisterContext (RegisterSourceContextRequest) returns (RegisterSourceContextResponse);
-  rpc AssistantCompletion (AssistantCompletionRequest) returns (AssistantCompletionResponse);
-  rpc AssistantCodeCompletion (AssistantCodeCompletionRequest) returns (AssistantCodeCompletionResponse);
 }
 
 enum Mode {
@@ -66,6 +67,11 @@ enum IndentationCharacter {
 enum Visibility {
   ALL = 0;
   PUBLIC = 1;
+}
+
+enum Vote {
+  UP_VOTE = 0;
+  DOWN_VOTE = 1;
 }
 
 message Source {
@@ -212,4 +218,14 @@ message AssistantCodeCompletionResponse {
   Output output = 2;
   string sessionId = 3;
   string messageId = 4;
+}
+
+message RegisterAssistantFeedbackRequest {
+  string sessionId = 1;
+  string messageId = 2;
+  Vote vote = 3;
+}
+
+message RegisterAssistantFeedbackResponse {
+
 }

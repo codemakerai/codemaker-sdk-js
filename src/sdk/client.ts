@@ -11,6 +11,8 @@ import {
     AssistantCodeCompletionResponse,
     AssistantCompletionRequest,
     AssistantCompletionResponse,
+    RegisterAssistantFeedbackRequest,
+    RegisterAssistantFeedbackResponse,
     CodeSnippetContext,
     CompletionRequest,
     CompletionResponse,
@@ -26,7 +28,7 @@ import {
     RegisterContextRequest,
     RegisterContextResponse,
     RequiredSourceContext,
-    SourceContext,
+    SourceContext, Vote,
 } from "./model/model";
 import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
@@ -65,6 +67,7 @@ import {
 import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Output";
 import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
+import {Vote as CodemakerVote} from "./proto/ai/codemaker/service/Vote";
 import {
     AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest
 } from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
@@ -77,6 +80,12 @@ import {
 import {
     AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse
 } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
+import {
+    RegisterAssistantFeedbackRequest as CodemakerRegisterAssistantFeedbackRequest
+} from "./proto/ai/codemaker/service/RegisterAssistantFeedbackRequest";
+import {
+    RegisterAssistantFeedbackResponse__Output as CodemakerRegisterAssistantFeedbackResponse
+} from "./proto/ai/codemaker/service/RegisterAssistantFeedbackResponse";
 import {Config} from "./config";
 
 const {createHash} = require('crypto');
@@ -166,6 +175,12 @@ export class Client {
         const assistantCodeCompletionRequest = this.createAssistantCodeCompletionRequest(request);
         const assistantCodeCompletionResponse = await this.doAssistantCodeCompletion(assistantCodeCompletionRequest);
         return this.createAssistantCodeCompletionResponse(assistantCodeCompletionResponse);
+    }
+
+    async registerAssistantFeedback(request: RegisterAssistantFeedbackRequest) {
+        const registerAssistantFeedbackRequest = this.createRegisterAssistantFeedbackRequest(request);
+        const registerAssistantFeedbackResponse = await this.doRegisterAssistantFeedback(registerAssistantFeedbackRequest);
+        return this.createRegisterAssistantFeedbackResponse(registerAssistantFeedbackResponse);
     }
 
     private createCompletionRequest(request: CompletionRequest): CodemakerCompletionRequest {
@@ -336,6 +351,22 @@ export class Client {
         };
     }
 
+    private createRegisterAssistantFeedbackRequest(request: RegisterAssistantFeedbackRequest): CodemakerRegisterAssistantFeedbackResponse {
+        return {
+            sessionId: request.sessionId,
+            messageId: request.messageId,
+            vote: this.mapVote(request.vote),
+        };
+    }
+
+    private doRegisterAssistantFeedback(registerAssistantFeedbackRequest: CodemakerRegisterAssistantFeedbackRequest): Promise<CodemakerRegisterAssistantFeedbackResponse> {
+        return this.doCall(this.client.RegisterAssistantFeedback, registerAssistantFeedbackRequest);
+    }
+
+    private createRegisterAssistantFeedbackResponse(registerAssistantFeedbackResponse: CodemakerRegisterAssistantFeedbackResponse): RegisterAssistantFeedbackResponse {
+        return {};
+    }
+
     private doCall<TResp, TReq>(operation: (request: TReq, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<TResp>) => grpc.ClientUnaryCall, request: TReq) {
         const boundOperation = operation.bind(this.client);
         return new Promise<TResp>((resolve, reject) => {
@@ -407,6 +438,13 @@ export class Client {
             return "UNMODIFIED";
         }
         return modify === Modify.replace ? "REPLACE" : "UNMODIFIED";
+    }
+
+    private mapVote(vote: Vote | undefined): CodemakerVote {
+        if (!vote) {
+            return "UP_VOTE";
+        }
+        return vote === Vote.upVote ? "UP_VOTE" : "DOWN_VOTE";
     }
 
     private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined {
