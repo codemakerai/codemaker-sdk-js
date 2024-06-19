@@ -12,6 +12,8 @@ import type { CreateSourceContextRequest as _ai_codemaker_service_CreateSourceCo
 import type { CreateSourceContextResponse as _ai_codemaker_service_CreateSourceContextResponse, CreateSourceContextResponse__Output as _ai_codemaker_service_CreateSourceContextResponse__Output } from '../../../ai/codemaker/service/CreateSourceContextResponse';
 import type { DiscoverSourceContextRequest as _ai_codemaker_service_DiscoverSourceContextRequest, DiscoverSourceContextRequest__Output as _ai_codemaker_service_DiscoverSourceContextRequest__Output } from '../../../ai/codemaker/service/DiscoverSourceContextRequest';
 import type { DiscoverSourceContextResponse as _ai_codemaker_service_DiscoverSourceContextResponse, DiscoverSourceContextResponse__Output as _ai_codemaker_service_DiscoverSourceContextResponse__Output } from '../../../ai/codemaker/service/DiscoverSourceContextResponse';
+import type { ListModelsRequest as _ai_codemaker_service_ListModelsRequest, ListModelsRequest__Output as _ai_codemaker_service_ListModelsRequest__Output } from '../../../ai/codemaker/service/ListModelsRequest';
+import type { ListModelsResponse as _ai_codemaker_service_ListModelsResponse, ListModelsResponse__Output as _ai_codemaker_service_ListModelsResponse__Output } from '../../../ai/codemaker/service/ListModelsResponse';
 import type { PredictRequest as _ai_codemaker_service_PredictRequest, PredictRequest__Output as _ai_codemaker_service_PredictRequest__Output } from '../../../ai/codemaker/service/PredictRequest';
 import type { PredictResponse as _ai_codemaker_service_PredictResponse, PredictResponse__Output as _ai_codemaker_service_PredictResponse__Output } from '../../../ai/codemaker/service/PredictResponse';
 import type { ProcessRequest as _ai_codemaker_service_ProcessRequest, ProcessRequest__Output as _ai_codemaker_service_ProcessRequest__Output } from '../../../ai/codemaker/service/ProcessRequest';
@@ -67,6 +69,15 @@ export interface CodemakerServiceClient extends grpc.Client {
   discoverContext(argument: _ai_codemaker_service_DiscoverSourceContextRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_DiscoverSourceContextResponse__Output>): grpc.ClientUnaryCall;
   discoverContext(argument: _ai_codemaker_service_DiscoverSourceContextRequest, callback: grpc.requestCallback<_ai_codemaker_service_DiscoverSourceContextResponse__Output>): grpc.ClientUnaryCall;
   
+  ListModels(argument: _ai_codemaker_service_ListModelsRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  ListModels(argument: _ai_codemaker_service_ListModelsRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  ListModels(argument: _ai_codemaker_service_ListModelsRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  ListModels(argument: _ai_codemaker_service_ListModelsRequest, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  listModels(argument: _ai_codemaker_service_ListModelsRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  listModels(argument: _ai_codemaker_service_ListModelsRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  listModels(argument: _ai_codemaker_service_ListModelsRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  listModels(argument: _ai_codemaker_service_ListModelsRequest, callback: grpc.requestCallback<_ai_codemaker_service_ListModelsResponse__Output>): grpc.ClientUnaryCall;
+  
   Predict(argument: _ai_codemaker_service_PredictRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_PredictResponse__Output>): grpc.ClientUnaryCall;
   Predict(argument: _ai_codemaker_service_PredictRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_PredictResponse__Output>): grpc.ClientUnaryCall;
   Predict(argument: _ai_codemaker_service_PredictRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_PredictResponse__Output>): grpc.ClientUnaryCall;
@@ -116,6 +127,8 @@ export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementat
   
   DiscoverContext: grpc.handleUnaryCall<_ai_codemaker_service_DiscoverSourceContextRequest__Output, _ai_codemaker_service_DiscoverSourceContextResponse>;
   
+  ListModels: grpc.handleUnaryCall<_ai_codemaker_service_ListModelsRequest__Output, _ai_codemaker_service_ListModelsResponse>;
+  
   Predict: grpc.handleUnaryCall<_ai_codemaker_service_PredictRequest__Output, _ai_codemaker_service_PredictResponse>;
   
   Process: grpc.handleUnaryCall<_ai_codemaker_service_ProcessRequest__Output, _ai_codemaker_service_ProcessResponse>;
@@ -132,6 +145,7 @@ export interface CodemakerServiceDefinition extends grpc.ServiceDefinition {
   Completion: MethodDefinition<_ai_codemaker_service_CompletionRequest, _ai_codemaker_service_CompletionResponse, _ai_codemaker_service_CompletionRequest__Output, _ai_codemaker_service_CompletionResponse__Output>
   CreateContext: MethodDefinition<_ai_codemaker_service_CreateSourceContextRequest, _ai_codemaker_service_CreateSourceContextResponse, _ai_codemaker_service_CreateSourceContextRequest__Output, _ai_codemaker_service_CreateSourceContextResponse__Output>
   DiscoverContext: MethodDefinition<_ai_codemaker_service_DiscoverSourceContextRequest, _ai_codemaker_service_DiscoverSourceContextResponse, _ai_codemaker_service_DiscoverSourceContextRequest__Output, _ai_codemaker_service_DiscoverSourceContextResponse__Output>
+  ListModels: MethodDefinition<_ai_codemaker_service_ListModelsRequest, _ai_codemaker_service_ListModelsResponse, _ai_codemaker_service_ListModelsRequest__Output, _ai_codemaker_service_ListModelsResponse__Output>
   Predict: MethodDefinition<_ai_codemaker_service_PredictRequest, _ai_codemaker_service_PredictResponse, _ai_codemaker_service_PredictRequest__Output, _ai_codemaker_service_PredictResponse__Output>
   Process: MethodDefinition<_ai_codemaker_service_ProcessRequest, _ai_codemaker_service_ProcessResponse, _ai_codemaker_service_ProcessRequest__Output, _ai_codemaker_service_ProcessResponse__Output>
   RegisterAssistantFeedback: MethodDefinition<_ai_codemaker_service_RegisterAssistantFeedbackRequest, _ai_codemaker_service_RegisterAssistantFeedbackResponse, _ai_codemaker_service_RegisterAssistantFeedbackRequest__Output, _ai_codemaker_service_RegisterAssistantFeedbackResponse__Output>

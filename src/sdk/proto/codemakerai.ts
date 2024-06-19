@@ -29,8 +29,11 @@ export interface ProtoGrpcType {
         IndentationCharacter: EnumTypeDefinition
         Input: MessageTypeDefinition
         Language: EnumTypeDefinition
+        ListModelsRequest: MessageTypeDefinition
+        ListModelsResponse: MessageTypeDefinition
         Metadata: MessageTypeDefinition
         Mode: EnumTypeDefinition
+        Model: MessageTypeDefinition
         Modify: EnumTypeDefinition
         Output: MessageTypeDefinition
         PredictRequest: MessageTypeDefinition

@@ -11,6 +11,7 @@ service CodemakerService {
   rpc DiscoverContext (DiscoverSourceContextRequest) returns (DiscoverSourceContextResponse);
   rpc CreateContext (CreateSourceContextRequest) returns (CreateSourceContextResponse);
   rpc RegisterContext (RegisterSourceContextRequest) returns (RegisterSourceContextResponse);
+  rpc ListModels (ListModelsRequest) returns (ListModelsResponse);
 }
 
 enum Mode {
@@ -109,6 +110,11 @@ message CodeSnippetContext {
   double score = 4;
 }
 
+message Model {
+  string id = 1;
+  string name = 2;
+}
+
 message ProcessOptions {
   Modify modify = 1;
   string codePath = 2;
@@ -138,62 +144,6 @@ message AssistantCodeCompletionOptions {
 message PredictionOptions {
   string contextId = 1;
   string model = 2;
-}
-
-message ProcessRequest {
-  Mode mode = 1;
-  Language language = 2;
-  Input input = 3;
-  ProcessOptions options = 4;
-}
-
-message ProcessResponse {
-  Output output = 1;
-}
-
-message CompletionRequest {
-  Language language = 1;
-  Input input = 2;
-  CompletionOptions options = 3;
-}
-
-message CompletionResponse {
-  Output output = 1;
-}
-
-message PredictRequest {
-  Language language = 1;
-  Input input = 2;
-  PredictionOptions options = 3;
-}
-
-message PredictResponse {
-}
-
-message DiscoverSourceContextRequest {
-  SourceContext context = 1;
-}
-
-message DiscoverSourceContextResponse {
-  repeated RequiredSourceContext contexts = 1;
-  bool requiresProcessing = 2;
-}
-
-message CreateSourceContextRequest {
-
-}
-
-message CreateSourceContextResponse {
-  string id = 1;
-}
-
-message RegisterSourceContextRequest {
-  string id = 1;
-  repeated SourceContext sourceContexts = 2;
-}
-
-message RegisterSourceContextResponse {
-
 }
 
 message AssistantCompletionRequest {
@@ -228,4 +178,69 @@ message RegisterAssistantFeedbackRequest {
 
 message RegisterAssistantFeedbackResponse {
 
+}
+
+message CompletionRequest {
+  Language language = 1;
+  Input input = 2;
+  CompletionOptions options = 3;
+}
+
+message CompletionResponse {
+  Output output = 1;
+}
+
+message ProcessRequest {
+  Mode mode = 1;
+  Language language = 2;
+  Input input = 3;
+  ProcessOptions options = 4;
+}
+
+message ProcessResponse {
+  Output output = 1;
+}
+
+message PredictRequest {
+  Language language = 1;
+  Input input = 2;
+  PredictionOptions options = 3;
+}
+
+message PredictResponse {
+
+}
+
+message DiscoverSourceContextRequest {
+  SourceContext context = 1;
+}
+
+message DiscoverSourceContextResponse {
+  repeated RequiredSourceContext contexts = 1;
+  bool requiresProcessing = 2;
+}
+
+message CreateSourceContextRequest {
+
+}
+
+message CreateSourceContextResponse {
+  string id = 1;
+}
+
+message RegisterSourceContextRequest {
+  string id = 1;
+  repeated SourceContext sourceContexts = 2;
+}
+
+message RegisterSourceContextResponse {
+
+}
+
+message ListModelsRequest {
+
+}
+
+message ListModelsResponse {
+  repeated Model models = 1;
 }
