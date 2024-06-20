@@ -11,6 +11,8 @@ import {
     AssistantCodeCompletionResponse,
     AssistantCompletionRequest,
     AssistantCompletionResponse,
+    AssistantSpeechRequest,
+    AssistantSpeechResponse,
     RegisterAssistantFeedbackRequest,
     RegisterAssistantFeedbackResponse,
     CodeSnippetContext,
@@ -28,12 +30,13 @@ import {
     RegisterContextRequest,
     RegisterContextResponse,
     RequiredSourceContext,
-    SourceContext, Vote,
+    SourceContext,
+    Vote,
 } from "./model/model";
-import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
 import {PredictRequest as CodemakerPredictRequest} from "./proto/ai/codemaker/service/PredictRequest";
 import {CodeSnippetContext as CodemakerCodeSnippetContext} from "./proto/ai/codemaker/service/CodeSnippetContext";
+import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {
     CompletionResponse__Output as CodemakerCompletionResponse
 } from "./proto/ai/codemaker/service/CompletionResponse";
@@ -69,17 +72,21 @@ import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encodi
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
 import {Vote as CodemakerVote} from "./proto/ai/codemaker/service/Vote";
 import {
-    AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest
-} from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
-import {
-    AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse
-} from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
-import {
     AssistantCompletionRequest as CodemakerAssistantCompletionRequest
 } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
 import {
     AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse
 } from "./proto/ai/codemaker/service/AssistantCompletionResponse";
+import {
+    AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest
+} from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
+import {
+    AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse
+} from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
+import {AssistantSpeechRequest as CodemakerAssistantSpeechRequest} from "./proto/ai/codemaker/service/AssistantSpeechRequest";
+import {
+    AssistantSpeechResponse__Output as CodemakerAssistantSpeechResponse
+} from "./proto/ai/codemaker/service/AssistantSpeechResponse";
 import {
     RegisterAssistantFeedbackRequest as CodemakerRegisterAssistantFeedbackRequest
 } from "./proto/ai/codemaker/service/RegisterAssistantFeedbackRequest";
@@ -175,6 +182,12 @@ export class Client {
         const assistantCodeCompletionRequest = this.createAssistantCodeCompletionRequest(request);
         const assistantCodeCompletionResponse = await this.doAssistantCodeCompletion(assistantCodeCompletionRequest);
         return this.createAssistantCodeCompletionResponse(assistantCodeCompletionResponse);
+    }
+
+    async assistantSpeech(request: AssistantSpeechRequest) {
+        const assistantSpeechRequest = this.createAssistantSpeechRequest(request);
+        const assistantSpeechResponse = await this.doAssistantSpeech(assistantSpeechRequest);
+        return this.createAssistantSpeechResponse(assistantSpeechResponse);
     }
 
     async registerAssistantFeedback(request: RegisterAssistantFeedbackRequest) {
@@ -348,6 +361,22 @@ export class Client {
             messageId: assistantCodeCompletionResponse.messageId,
             message: assistantCodeCompletionResponse.message,
             output: this.createOutput(assistantCodeCompletionResponse.output!)
+        };
+    }
+
+    private createAssistantSpeechRequest(request: AssistantSpeechRequest): CodemakerAssistantSpeechRequest {
+        return {
+            message: request.message,
+        };
+    }
+
+    private async doAssistantSpeech(completionRequest: CodemakerAssistantSpeechRequest): Promise<CodemakerAssistantSpeechResponse> {
+        return this.doCall(this.client.AssistantSpeech, completionRequest);
+    }
+
+    private createAssistantSpeechResponse(assistantSpeechResponse: CodemakerAssistantSpeechResponse): AssistantSpeechResponse {
+        return {
+            audio: assistantSpeechResponse.audio
         };
     }
 

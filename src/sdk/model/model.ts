@@ -76,6 +76,14 @@ export type AssistantCodeCompletionResponse = {
     output: Output;
 };
 
+export type AssistantSpeechRequest = {
+    message: string;
+};
+
+export type AssistantSpeechResponse = {
+    audio: Buffer;
+};
+
 export type RegisterAssistantFeedbackRequest = {
     sessionId: string;
     messageId: string;
