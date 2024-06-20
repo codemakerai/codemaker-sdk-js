@@ -6,6 +6,8 @@ import type { AssistantCodeCompletionRequest as _ai_codemaker_service_AssistantC
 import type { AssistantCodeCompletionResponse as _ai_codemaker_service_AssistantCodeCompletionResponse, AssistantCodeCompletionResponse__Output as _ai_codemaker_service_AssistantCodeCompletionResponse__Output } from '../../../ai/codemaker/service/AssistantCodeCompletionResponse';
 import type { AssistantCompletionRequest as _ai_codemaker_service_AssistantCompletionRequest, AssistantCompletionRequest__Output as _ai_codemaker_service_AssistantCompletionRequest__Output } from '../../../ai/codemaker/service/AssistantCompletionRequest';
 import type { AssistantCompletionResponse as _ai_codemaker_service_AssistantCompletionResponse, AssistantCompletionResponse__Output as _ai_codemaker_service_AssistantCompletionResponse__Output } from '../../../ai/codemaker/service/AssistantCompletionResponse';
+import type { AssistantSpeechRequest as _ai_codemaker_service_AssistantSpeechRequest, AssistantSpeechRequest__Output as _ai_codemaker_service_AssistantSpeechRequest__Output } from '../../../ai/codemaker/service/AssistantSpeechRequest';
+import type { AssistantSpeechResponse as _ai_codemaker_service_AssistantSpeechResponse, AssistantSpeechResponse__Output as _ai_codemaker_service_AssistantSpeechResponse__Output } from '../../../ai/codemaker/service/AssistantSpeechResponse';
 import type { CompletionRequest as _ai_codemaker_service_CompletionRequest, CompletionRequest__Output as _ai_codemaker_service_CompletionRequest__Output } from '../../../ai/codemaker/service/CompletionRequest';
 import type { CompletionResponse as _ai_codemaker_service_CompletionResponse, CompletionResponse__Output as _ai_codemaker_service_CompletionResponse__Output } from '../../../ai/codemaker/service/CompletionResponse';
 import type { CreateSourceContextRequest as _ai_codemaker_service_CreateSourceContextRequest, CreateSourceContextRequest__Output as _ai_codemaker_service_CreateSourceContextRequest__Output } from '../../../ai/codemaker/service/CreateSourceContextRequest';
@@ -41,6 +43,15 @@ export interface CodemakerServiceClient extends grpc.Client {
   assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
   assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
   assistantCompletion(argument: _ai_codemaker_service_AssistantCompletionRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantCompletionResponse__Output>): grpc.ClientUnaryCall;
+  
+  AssistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  AssistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  AssistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  AssistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  assistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  assistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  assistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
+  assistantSpeech(argument: _ai_codemaker_service_AssistantSpeechRequest, callback: grpc.requestCallback<_ai_codemaker_service_AssistantSpeechResponse__Output>): grpc.ClientUnaryCall;
   
   Completion(argument: _ai_codemaker_service_CompletionRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_ai_codemaker_service_CompletionResponse__Output>): grpc.ClientUnaryCall;
   Completion(argument: _ai_codemaker_service_CompletionRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_ai_codemaker_service_CompletionResponse__Output>): grpc.ClientUnaryCall;
@@ -121,6 +132,8 @@ export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementat
   
   AssistantCompletion: grpc.handleUnaryCall<_ai_codemaker_service_AssistantCompletionRequest__Output, _ai_codemaker_service_AssistantCompletionResponse>;
   
+  AssistantSpeech: grpc.handleUnaryCall<_ai_codemaker_service_AssistantSpeechRequest__Output, _ai_codemaker_service_AssistantSpeechResponse>;
+  
   Completion: grpc.handleUnaryCall<_ai_codemaker_service_CompletionRequest__Output, _ai_codemaker_service_CompletionResponse>;
   
   CreateContext: grpc.handleUnaryCall<_ai_codemaker_service_CreateSourceContextRequest__Output, _ai_codemaker_service_CreateSourceContextResponse>;
@@ -142,6 +155,7 @@ export interface CodemakerServiceHandlers extends grpc.UntypedServiceImplementat
 export interface CodemakerServiceDefinition extends grpc.ServiceDefinition {
   AssistantCodeCompletion: MethodDefinition<_ai_codemaker_service_AssistantCodeCompletionRequest, _ai_codemaker_service_AssistantCodeCompletionResponse, _ai_codemaker_service_AssistantCodeCompletionRequest__Output, _ai_codemaker_service_AssistantCodeCompletionResponse__Output>
   AssistantCompletion: MethodDefinition<_ai_codemaker_service_AssistantCompletionRequest, _ai_codemaker_service_AssistantCompletionResponse, _ai_codemaker_service_AssistantCompletionRequest__Output, _ai_codemaker_service_AssistantCompletionResponse__Output>
+  AssistantSpeech: MethodDefinition<_ai_codemaker_service_AssistantSpeechRequest, _ai_codemaker_service_AssistantSpeechResponse, _ai_codemaker_service_AssistantSpeechRequest__Output, _ai_codemaker_service_AssistantSpeechResponse__Output>
   Completion: MethodDefinition<_ai_codemaker_service_CompletionRequest, _ai_codemaker_service_CompletionResponse, _ai_codemaker_service_CompletionRequest__Output, _ai_codemaker_service_CompletionResponse__Output>
   CreateContext: MethodDefinition<_ai_codemaker_service_CreateSourceContextRequest, _ai_codemaker_service_CreateSourceContextResponse, _ai_codemaker_service_CreateSourceContextRequest__Output, _ai_codemaker_service_CreateSourceContextResponse__Output>
   DiscoverContext: MethodDefinition<_ai_codemaker_service_DiscoverSourceContextRequest, _ai_codemaker_service_DiscoverSourceContextResponse, _ai_codemaker_service_DiscoverSourceContextRequest__Output, _ai_codemaker_service_DiscoverSourceContextResponse__Output>
