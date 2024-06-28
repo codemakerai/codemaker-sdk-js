@@ -152,6 +152,7 @@ export enum Language {
     c = "C",
     cpp = "CPP",
     java = "JAVA",
+    python = "PYTHON",
     javascript = "JAVASCRIPT",
     typescript = "TYPESCRIPT",
     kotlin = "KOTLIN",
