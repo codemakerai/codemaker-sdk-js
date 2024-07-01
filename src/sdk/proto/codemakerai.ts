@@ -14,6 +14,7 @@ export interface ProtoGrpcType {
         AssistantCodeCompletionOptions: MessageTypeDefinition
         AssistantCodeCompletionRequest: MessageTypeDefinition
         AssistantCodeCompletionResponse: MessageTypeDefinition
+        AssistantCompletionOptions: MessageTypeDefinition
         AssistantCompletionRequest: MessageTypeDefinition
         AssistantCompletionResponse: MessageTypeDefinition
         AssistantSpeechRequest: MessageTypeDefinition
@@ -31,6 +32,7 @@ export interface ProtoGrpcType {
         IndentationCharacter: EnumTypeDefinition
         Input: MessageTypeDefinition
         Language: EnumTypeDefinition
+        LanguageCode: EnumTypeDefinition
         ListModelsRequest: MessageTypeDefinition
         ListModelsResponse: MessageTypeDefinition
         Metadata: MessageTypeDefinition

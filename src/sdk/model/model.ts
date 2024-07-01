@@ -54,6 +54,7 @@ export type RegisterContextResponse = {};
 
 export type AssistantCompletionRequest = {
     message: string;
+    options?: Options;
 };
 
 export type AssistantCompletionResponse = {
@@ -134,6 +135,7 @@ export type Options = {
     readonly codeSnippetContexts?: CodeSnippetContext[];
     readonly contextId?: string;
     readonly model?: string;
+    readonly language?: LanguageCode;
 };
 
 export enum Mode {
@@ -170,4 +172,18 @@ export enum Modify {
 export enum Vote {
     upVote = "UP_VOTE",
     downVote = "DOWN_VOTE"
+}
+
+export enum LanguageCode {
+    en = "EN",
+    es = "ES",
+    pt = "PT",
+    jp = "JP",
+    vi = "VI",
+    tr = "TR",
+    ko = "KO",
+    de = "DE",
+    fr = "FR",
+    pl = "PL",
+    zn = "ZN"
 }

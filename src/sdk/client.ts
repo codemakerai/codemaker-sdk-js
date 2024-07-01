@@ -31,7 +31,7 @@ import {
     RegisterContextResponse,
     RequiredSourceContext,
     SourceContext,
-    Vote,
+    Vote, LanguageCode,
 } from "./model/model";
 import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
 import {PredictRequest as CodemakerPredictRequest} from "./proto/ai/codemaker/service/PredictRequest";
@@ -71,6 +71,7 @@ import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Ou
 import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
 import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
 import {Vote as CodemakerVote} from "./proto/ai/codemaker/service/Vote";
+import {LanguageCode as CodemakerLanguageCode} from "./proto/ai/codemaker/service/LanguageCode";
 import {
     AssistantCompletionRequest as CodemakerAssistantCompletionRequest
 } from "./proto/ai/codemaker/service/AssistantCompletionRequest";
@@ -324,6 +325,9 @@ export class Client {
     private createAssistantCompletionRequest(request: AssistantCompletionRequest): CodemakerAssistantCompletionRequest {
         return {
             message: request.message,
+            options: {
+                language: this.mapLanguage(request.options?.language)
+            }
         };
     }
 
@@ -474,6 +478,14 @@ export class Client {
             return "UP_VOTE";
         }
         return vote === Vote.upVote ? "UP_VOTE" : "DOWN_VOTE";
+    }
+
+    private mapLanguage(language: LanguageCode | undefined): CodemakerLanguageCode {
+        if (!language) {
+            return "UNSPECIFIED";
+        }
+
+        return language;
     }
 
     private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined {
