@@ -351,6 +351,7 @@ export class Client {
             options: {
                 contextId: request.options?.contextId,
                 model: request.options?.model,
+                language: this.mapLanguage(request.options?.language)
             }
         };
     }
