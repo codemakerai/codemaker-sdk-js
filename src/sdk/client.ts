@@ -1,5 +1,6 @@
 // Copyright 2023-2024 CodeMaker AI Inc. All rights reserved.
 
+import {EventEmitter} from 'node:events';
 import * as grpc from '@grpc/grpc-js';
 import {status, StatusObject} from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
@@ -191,6 +192,23 @@ export class Client {
         return this.createAssistantSpeechResponse(assistantSpeechResponse);
     }
 
+    assistantSpeechStream(request: AssistantSpeechRequest) {
+        const assistantSpeechRequest = this.createAssistantSpeechRequest(request);
+        const stream = this.doAssistantSpeechStream(assistantSpeechRequest);
+
+        const emitter = new EventEmitter();
+        stream.on('data', (resp) => {
+           emitter.emit('data', this.createAssistantSpeechResponse(resp));
+        });
+        stream.on('error', (e) => {
+            emitter.emit('error', e);
+        });
+        stream.on('end', () => {
+            emitter.emit('end');
+        });
+        return emitter;
+    }
+
     async registerAssistantFeedback(request: RegisterAssistantFeedbackRequest) {
         const registerAssistantFeedbackRequest = this.createRegisterAssistantFeedbackRequest(request);
         const registerAssistantFeedbackResponse = await this.doRegisterAssistantFeedback(registerAssistantFeedbackRequest);
@@ -375,14 +393,18 @@ export class Client {
         };
     }
 
-    private async doAssistantSpeech(completionRequest: CodemakerAssistantSpeechRequest): Promise<CodemakerAssistantSpeechResponse> {
-        return this.doCall(this.client.AssistantSpeech, completionRequest);
+    private async doAssistantSpeech(assistantSpeechRequest: CodemakerAssistantSpeechRequest): Promise<CodemakerAssistantSpeechResponse> {
+        return this.doCall(this.client.AssistantSpeech, assistantSpeechRequest);
     }
 
     private createAssistantSpeechResponse(assistantSpeechResponse: CodemakerAssistantSpeechResponse): AssistantSpeechResponse {
         return {
             audio: assistantSpeechResponse.audio
         };
+    }
+
+    private doAssistantSpeechStream(assistantSpeechRequest: CodemakerAssistantSpeechRequest): grpc.ClientReadableStream<CodemakerAssistantSpeechResponse> {
+        return this.client.AssistantSpeechStream(assistantSpeechRequest, this.createMetadata(), this.createOptions());
     }
 
     private createRegisterAssistantFeedbackRequest(request: RegisterAssistantFeedbackRequest): CodemakerRegisterAssistantFeedbackResponse {
