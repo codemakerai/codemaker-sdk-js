@@ -5,14 +5,15 @@ export const LanguageCode = {
   EN: 'EN',
   ES: 'ES',
   PT: 'PT',
-  JP: 'JP',
+  JA: 'JA',
   VI: 'VI',
   TR: 'TR',
   KO: 'KO',
   DE: 'DE',
   FR: 'FR',
   PL: 'PL',
-  ZN: 'ZN',
+  ZH: 'ZH',
+  IT: 'IT',
 } as const;
 
 export type LanguageCode =
@@ -24,7 +25,7 @@ export type LanguageCode =
   | 2
   | 'PT'
   | 3
-  | 'JP'
+  | 'JA'
   | 4
   | 'VI'
   | 5
@@ -38,7 +39,9 @@ export type LanguageCode =
   | 9
   | 'PL'
   | 10
-  | 'ZN'
+  | 'ZH'
   | 11
+  | 'IT'
+  | 12
 
 export type LanguageCode__Output = typeof LanguageCode[keyof typeof LanguageCode]

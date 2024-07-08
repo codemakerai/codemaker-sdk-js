@@ -178,12 +178,13 @@ export enum LanguageCode {
     en = "EN",
     es = "ES",
     pt = "PT",
-    jp = "JP",
+    ja = "JA",
     vi = "VI",
     tr = "TR",
     ko = "KO",
     de = "DE",
     fr = "FR",
+    it = "IT",
     pl = "PL",
-    zn = "ZN"
+    zh = "ZH"
 }
