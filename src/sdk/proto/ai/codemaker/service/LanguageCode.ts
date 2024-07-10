@@ -14,6 +14,8 @@ export const LanguageCode = {
   PL: 'PL',
   ZH: 'ZH',
   IT: 'IT',
+  ID: 'ID',
+  NL: 'NL',
 } as const;
 
 export type LanguageCode =
@@ -43,5 +45,9 @@ export type LanguageCode =
   | 11
   | 'IT'
   | 12
+  | 'ID'
+  | 13
+  | 'NL'
+  | 14
 
 export type LanguageCode__Output = typeof LanguageCode[keyof typeof LanguageCode]
