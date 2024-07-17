@@ -33,8 +33,7 @@
   "homepage": "https://github.com/codemakerai/codemaker-sdk-js#readme",
   "dependencies": {
     "@grpc/grpc-js": "^1.11.1",
-    "@grpc/proto-loader": "^0.7.13",
-    "typescript": "^5.5.3"
+    "@grpc/proto-loader": "^0.7.13"
   },
   "devDependencies": {
     "@types/chai": "^4.3.16",
@@ -46,6 +45,7 @@
     "copyfiles": "^2.4.1",
     "eslint": "^8.57.0",
     "mocha": "^10.6.0",
-    "sinon": "^18.0.0"
+    "sinon": "^18.0.0",
+    "typescript": "^5.5.3"
   }
 }
