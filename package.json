@@ -8,11 +8,12 @@
     "dist"
   ],
   "scripts": {
-    "proto": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:. --grpc_out=grpc_js:. src/sdk/proto/codemakerai.proto",
+    "proto:prepare": "mkdir -p dist",
+    "proto": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:dist --grpc_out=grpc_js:dist src/sdk/proto/codemakerai.proto",
     "proto-types": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=grpc_js:. src/sdk/proto/codemakerai.proto",
     "prepare": "npm run build",
     "compile": "tsc -p ./",
-    "build": "npm run proto && npm run proto-types && npm run compile && npm run copy-files",
+    "build": "npm run proto:prepare && npm run proto && npm run proto-types && npm run compile && npm run copy-files",
     "copy-files": "copyfiles -f src/sdk/proto/codemakerai.proto ./dist/src/sdk/proto",
     "test": "npm run compile && mocha",
     "lint": "eslint src --ext ts"
