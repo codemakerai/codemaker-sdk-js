@@ -3,10 +3,8 @@
 import {EventEmitter} from 'node:events';
 import * as grpc from '@grpc/grpc-js';
 import {status, StatusObject} from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
 import {gzipSync, unzipSync} from 'node:zlib';
-import {ProtoGrpcType} from "./proto/codemakerai";
-import {CodemakerServiceClient} from "./proto/ai/codemaker/service/CodemakerService";
+import {CodemakerServiceClient} from "./proto/codemakerai_grpc_pb";
 import {
     AssistantCodeCompletionRequest,
     AssistantCodeCompletionResponse,
@@ -14,8 +12,6 @@ import {
     AssistantCompletionResponse,
     AssistantSpeechRequest,
     AssistantSpeechResponse,
-    RegisterAssistantFeedbackRequest,
-    RegisterAssistantFeedbackResponse,
     CodeSnippetContext,
     CompletionRequest,
     CompletionResponse,
@@ -24,77 +20,51 @@ import {
     DiscoverContextRequest,
     DiscoverContextResponse,
     Input,
+    LanguageCode,
     Modify,
     PredictRequest,
+    PredictResponse,
     ProcessRequest,
     ProcessResponse,
+    RegisterAssistantFeedbackRequest,
+    RegisterAssistantFeedbackResponse,
     RegisterContextRequest,
     RegisterContextResponse,
     RequiredSourceContext,
     SourceContext,
-    Vote, LanguageCode,
+    Vote,
 } from "./model/model";
-import {ProcessRequest as CodemakerProcessRequest} from "./proto/ai/codemaker/service/ProcessRequest";
-import {PredictRequest as CodemakerPredictRequest} from "./proto/ai/codemaker/service/PredictRequest";
-import {CodeSnippetContext as CodemakerCodeSnippetContext} from "./proto/ai/codemaker/service/CodeSnippetContext";
-import {CompletionRequest as CodemakerCompletionRequest} from "./proto/ai/codemaker/service/CompletionRequest";
 import {
-    CompletionResponse__Output as CodemakerCompletionResponse
-} from "./proto/ai/codemaker/service/CompletionResponse";
-import {ProcessResponse__Output as CodemakerProcessResponse} from "./proto/ai/codemaker/service/ProcessResponse";
-import {
-    PredictResponse,
-    PredictResponse__Output as CodemakerPredictResponse
-} from "./proto/ai/codemaker/service/PredictResponse";
-import {
-    DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest
-} from "./proto/ai/codemaker/service/DiscoverSourceContextRequest";
-import {
-    DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse
-} from "./proto/ai/codemaker/service/DiscoverSourceContextResponse";
-import {SourceContext as CodemakerSourceContext} from "./proto/ai/codemaker/service/SourceContext";
-import {
-    RequiredSourceContext as CodemakerRequiredSourceContext
-} from "./proto/ai/codemaker/service/RequiredSourceContext";
-import {
-    CreateSourceContextRequest as CodemakerCreateSourceContextRequest
-} from "./proto/ai/codemaker/service/CreateSourceContextRequest";
-import {
-    CreateSourceContextResponse as CodemakerCreateSourceContextResponse
-} from "./proto/ai/codemaker/service/CreateSourceContextResponse";
-import {
-    RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest
-} from "./proto/ai/codemaker/service/RegisterSourceContextRequest";
-import {
-    RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse
-} from "./proto/ai/codemaker/service/RegisterSourceContextResponse";
-import {Output__Output as CodemakerOutput} from "./proto/ai/codemaker/service/Output";
-import {Encoding as CodemakerEncoding} from "./proto/ai/codemaker/service/Encoding";
-import {Modify as CodemakerModify} from "./proto/ai/codemaker/service/Modify";
-import {Vote as CodemakerVote} from "./proto/ai/codemaker/service/Vote";
-import {LanguageCode as CodemakerLanguageCode} from "./proto/ai/codemaker/service/LanguageCode";
-import {
-    AssistantCompletionRequest as CodemakerAssistantCompletionRequest
-} from "./proto/ai/codemaker/service/AssistantCompletionRequest";
-import {
-    AssistantCompletionResponse__Output as CodemakerAssistantCompletionResponse
-} from "./proto/ai/codemaker/service/AssistantCompletionResponse";
-import {
-    AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest
-} from "./proto/ai/codemaker/service/AssistantCodeCompletionRequest";
-import {
-    AssistantCodeCompletionResponse__Output as CodemakerAssistantCodeCompletionResponse
-} from "./proto/ai/codemaker/service/AssistantCodeCompletionResponse";
-import {AssistantSpeechRequest as CodemakerAssistantSpeechRequest} from "./proto/ai/codemaker/service/AssistantSpeechRequest";
-import {
-    AssistantSpeechResponse__Output as CodemakerAssistantSpeechResponse
-} from "./proto/ai/codemaker/service/AssistantSpeechResponse";
-import {
-    RegisterAssistantFeedbackRequest as CodemakerRegisterAssistantFeedbackRequest
-} from "./proto/ai/codemaker/service/RegisterAssistantFeedbackRequest";
-import {
-    RegisterAssistantFeedbackResponse__Output as CodemakerRegisterAssistantFeedbackResponse
-} from "./proto/ai/codemaker/service/RegisterAssistantFeedbackResponse";
+    AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest,
+    AssistantCodeCompletionResponse as CodemakerAssistantCodeCompletionResponse,
+    AssistantCompletionRequest as CodemakerAssistantCompletionRequest,
+    AssistantCompletionResponse as CodemakerAssistantCompletionResponse,
+    AssistantSpeechRequest as CodemakerAssistantSpeechRequest,
+    AssistantSpeechResponse as CodemakerAssistantSpeechResponse,
+    CodeSnippetContext as CodemakerCodeSnippetContext,
+    CompletionRequest as CodemakerCompletionRequest,
+    CompletionResponse as CodemakerCompletionResponse,
+    CreateSourceContextRequest as CodemakerCreateSourceContextRequest,
+    CreateSourceContextResponse as CodemakerCreateSourceContextResponse,
+    DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest,
+    DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse,
+    Encoding,
+    Encoding as CodemakerEncoding,
+    LanguageCode as CodemakerLanguageCode,
+    Modify as CodemakerModify,
+    Output as CodemakerOutput,
+    PredictRequest as CodemakerPredictRequest,
+    PredictResponse as CodemakerPredictResponse,
+    ProcessRequest as CodemakerProcessRequest,
+    ProcessResponse as CodemakerProcessResponse,
+    RegisterAssistantFeedbackRequest as CodemakerRegisterAssistantFeedbackRequest,
+    RegisterAssistantFeedbackResponse as CodemakerRegisterAssistantFeedbackResponse,
+    RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest,
+    RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse,
+    RequiredSourceContext as CodemakerRequiredSourceContext,
+    SourceContext as CodemakerSourceContext,
+    Vote as CodemakerVote
+} from "./proto/codemakerai_pb";
 import {Config} from "./config";
 
 const {createHash} = require('crypto');
@@ -124,15 +94,13 @@ export class Client {
     private readonly client: CodemakerServiceClient;
 
     constructor(private readonly apiKeyProvider: () => string, private readonly config?: Config) {
-        const proto = this.loadProtoDefinition();
-
         const endpoint = config?.endpoint ?? Client.defaultEndpoint;
         this.maxRetries = config?.maxRetries ?? Client.defaultMaxRetries;
         this.timeoutInMillis = config?.timeoutInMillis ?? Client.defaultTimeoutInMillis;
         this.enableCompression = config?.enableCompression ?? Client.defaultEnableCompression;
         this.minimumCompressionPayloadSize = config?.minimumCompressionPayloadSize ?? Client.defaultMinimumCompressionPayloadSize;
 
-        this.client = new proto.ai.codemaker.service.CodemakerService(
+        this.client = new CodemakerServiceClient(
             endpoint,
             grpc.credentials.createSsl()
         );
@@ -231,12 +199,12 @@ export class Client {
     }
 
     private async doCompletion(completionRequest: CodemakerCompletionRequest): Promise<CodemakerCompletionResponse> {
-        return this.doCall(this.client.Completion, completionRequest);
+        return this.doCall(this.client.completion, completionRequest);
     }
 
     private createCompletionResponse(completionResponse: CodemakerCompletionResponse): CompletionResponse {
         return {
-            output: this.createOutput(completionResponse.output!)
+            output: this.createOutput(completionResponse.getOutput()!)
         };
     }
 
@@ -258,12 +226,12 @@ export class Client {
     }
 
     private async doProcess(processRequest: CodemakerProcessRequest): Promise<CodemakerProcessResponse> {
-        return this.doCall(this.client.Process, processRequest);
+        return this.doCall(this.client.process, processRequest);
     }
 
     private createProcessResponse(processResponse: CodemakerProcessResponse): ProcessResponse {
         return {
-            output: this.createOutput(processResponse.output!)
+            output: this.createOutput(processResponse.getOutput()!)
         };
     }
 
@@ -280,7 +248,7 @@ export class Client {
     }
 
     private async doPredict(predictRequest: CodemakerPredictRequest): Promise<CodemakerPredictResponse> {
-        return this.doCall(this.client.Predict, predictRequest);
+        return this.doCall(this.client.predict, predictRequest);
     }
 
     private createPredictResponse(predictResponse: CodemakerPredictResponse): PredictResponse {
@@ -289,8 +257,8 @@ export class Client {
 
     private createDiscoverContextRequest(request: DiscoverContextRequest): CodemakerDiscoverSourceContextRequest {
         return {
+            // @ts-ignore
             context: {
-                // @ts-ignore
                 language: request.context.language,
                 input: this.createInput(request.context.input),
                 metadata: {
@@ -301,39 +269,41 @@ export class Client {
     }
 
     private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest): Promise<CodemakerDiscoverSourceContextResponse> {
-        return this.doCall(this.client.DiscoverContext, discoverContextRequest);
+        return this.doCall(this.client.discoverContext, discoverContextRequest);
     }
 
     private createDiscoverContextResponse(discoverContextResponse: CodemakerDiscoverSourceContextResponse): DiscoverContextResponse {
         return {
-            requiredContexts: this.mapRequiredSourceContexts(discoverContextResponse.contexts!),
-            requiresProcessing: discoverContextResponse.requiresProcessing!,
+            requiredContexts: this.mapRequiredSourceContexts(discoverContextResponse.getContextsList()!),
+            requiresProcessing: discoverContextResponse.getRequiresprocessing()!,
         };
     }
 
     private createCreateContextRequest(request: CreateContextRequest): CodemakerCreateSourceContextRequest {
+        // @ts-ignore
         return {};
     }
 
     private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest): Promise<CodemakerCreateSourceContextResponse> {
-        return this.doCall(this.client.CreateContext, createContextRequest);
+        return this.doCall(this.client.createContext, createContextRequest);
     }
 
     private createCreateContextResponse(createContextResponse: CodemakerCreateSourceContextResponse): CreateContextResponse {
         return {
-            id: createContextResponse.id!
+            id: createContextResponse.getId()!
         };
     }
 
     private createRegisterContextRequest(request: RegisterContextRequest): CodemakerRegisterSourceContextRequest {
         return {
+            // @ts-ignore
             id: request.id,
             sourceContexts: this.mapSourceContexts(request.contexts)
         };
     }
 
     private async doRegisterContext(registerContextRequest: CodemakerRegisterSourceContextRequest): Promise<CodemakerRegisterSourceContextResponse> {
-        return this.doCall(this.client.RegisterContext, registerContextRequest);
+        return this.doCall(this.client.registerContext, registerContextRequest);
     }
 
     private createRegisterContextResponse(createContextResponse: CodemakerRegisterSourceContextResponse): RegisterContextResponse {
@@ -342,6 +312,7 @@ export class Client {
 
     private createAssistantCompletionRequest(request: AssistantCompletionRequest): CodemakerAssistantCompletionRequest {
         return {
+            // @ts-ignore
             message: request.message,
             options: {
                 language: this.mapLanguage(request.options?.language)
@@ -350,19 +321,20 @@ export class Client {
     }
 
     private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest): Promise<CodemakerAssistantCompletionResponse> {
-        return this.doCall(this.client.AssistantCompletion, assistantCompletionRequest);
+        return this.doCall(this.client.assistantCompletion, assistantCompletionRequest);
     }
 
     private createAssistantCompletionResponse(assistantCompletionResponse: CodemakerAssistantCompletionResponse): AssistantCompletionResponse {
         return {
-            sessionId: assistantCompletionResponse.sessionId,
-            messageId: assistantCompletionResponse.messageId,
-            message: assistantCompletionResponse.message,
+            sessionId: assistantCompletionResponse.getSessionid(),
+            messageId: assistantCompletionResponse.getMessageid(),
+            message: assistantCompletionResponse.getMessage(),
         };
     }
 
     private createAssistantCodeCompletionRequest(request: AssistantCodeCompletionRequest): CodemakerAssistantCodeCompletionRequest {
         return {
+            // @ts-ignore
             message: request.message,
             language: request.language,
             input: this.createInput(request.input),
@@ -375,40 +347,43 @@ export class Client {
     }
 
     private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest): Promise<CodemakerAssistantCodeCompletionResponse> {
-        return this.doCall(this.client.AssistantCodeCompletion, assistantCodeCompletionRequest);
+        return this.doCall(this.client.assistantCodeCompletion, assistantCodeCompletionRequest);
     }
 
     private createAssistantCodeCompletionResponse(assistantCodeCompletionResponse: CodemakerAssistantCodeCompletionResponse): AssistantCodeCompletionResponse {
         return {
-            sessionId: assistantCodeCompletionResponse.sessionId,
-            messageId: assistantCodeCompletionResponse.messageId,
-            message: assistantCodeCompletionResponse.message,
-            output: this.createOutput(assistantCodeCompletionResponse.output!)
+            sessionId: assistantCodeCompletionResponse.getSessionid(),
+            messageId: assistantCodeCompletionResponse.getMessageid(),
+            message: assistantCodeCompletionResponse.getMessage(),
+            output: this.createOutput(assistantCodeCompletionResponse.getOutput()!)
         };
     }
 
     private createAssistantSpeechRequest(request: AssistantSpeechRequest): CodemakerAssistantSpeechRequest {
         return {
+            // @ts-ignore
             message: request.message,
         };
     }
 
     private async doAssistantSpeech(assistantSpeechRequest: CodemakerAssistantSpeechRequest): Promise<CodemakerAssistantSpeechResponse> {
-        return this.doCall(this.client.AssistantSpeech, assistantSpeechRequest);
+        return this.doCall(this.client.assistantSpeech, assistantSpeechRequest);
     }
 
     private createAssistantSpeechResponse(assistantSpeechResponse: CodemakerAssistantSpeechResponse): AssistantSpeechResponse {
         return {
-            audio: assistantSpeechResponse.audio
+            // @ts-ignore
+            audio: assistantSpeechResponse.getAudio()
         };
     }
 
     private doAssistantSpeechStream(assistantSpeechRequest: CodemakerAssistantSpeechRequest): grpc.ClientReadableStream<CodemakerAssistantSpeechResponse> {
-        return this.client.AssistantSpeechStream(assistantSpeechRequest, this.createMetadata(), this.createOptions());
+        return this.client.assistantSpeechStream(assistantSpeechRequest, this.createMetadata(), this.createOptions());
     }
 
-    private createRegisterAssistantFeedbackRequest(request: RegisterAssistantFeedbackRequest): CodemakerRegisterAssistantFeedbackResponse {
+    private createRegisterAssistantFeedbackRequest(request: RegisterAssistantFeedbackRequest): CodemakerRegisterAssistantFeedbackRequest {
         return {
+            // @ts-ignore
             sessionId: request.sessionId,
             messageId: request.messageId,
             vote: this.mapVote(request.vote),
@@ -416,7 +391,7 @@ export class Client {
     }
 
     private doRegisterAssistantFeedback(registerAssistantFeedbackRequest: CodemakerRegisterAssistantFeedbackRequest): Promise<CodemakerRegisterAssistantFeedbackResponse> {
-        return this.doCall(this.client.RegisterAssistantFeedback, registerAssistantFeedbackRequest);
+        return this.doCall(this.client.registerAssistantFeedback, registerAssistantFeedbackRequest);
     }
 
     private createRegisterAssistantFeedbackResponse(registerAssistantFeedbackResponse: CodemakerRegisterAssistantFeedbackResponse): RegisterAssistantFeedbackResponse {
@@ -445,13 +420,13 @@ export class Client {
     }
 
     private createInput(input: Input) {
-        let encoding: CodemakerEncoding = 'NONE';
+        let encoding: CodemakerEncoding = CodemakerEncoding.NONE;
         let content = Buffer.from(input.source, 'utf-8');
         let checksum = this.checksum(content);
 
         if (this.enableCompression
             && content.length >= this.minimumCompressionPayloadSize) {
-            encoding = 'GZIP';
+            encoding = CodemakerEncoding.GZIP;
             content = this.compress(content);
         }
 
@@ -465,9 +440,9 @@ export class Client {
     }
 
     private createOutput(output: CodemakerOutput) {
-        let content = output.source?.content!;
+        let content = Buffer.from(output.getSource()?.getContent_asB64()!, "base64");
 
-        if (output.source?.encoding === "GZIP") {
+        if (output.getSource()?.getEncoding() === Encoding.GZIP) {
             content = this.decompress(content);
         }
         return {
@@ -490,31 +465,27 @@ export class Client {
     }
 
     private mapModify(modify: Modify | undefined): CodemakerModify {
-        if (!modify) {
-            return "UNMODIFIED";
-        }
-        return modify === Modify.replace ? "REPLACE" : "UNMODIFIED";
+        return modify === Modify.replace ? CodemakerModify.REPLACE : CodemakerModify.UNMODIFIED;
     }
 
     private mapVote(vote: Vote | undefined): CodemakerVote {
-        if (!vote) {
-            return "UP_VOTE";
-        }
-        return vote === Vote.upVote ? "UP_VOTE" : "DOWN_VOTE";
+        return vote === Vote.downVote ? CodemakerVote.DOWN_VOTE : CodemakerVote.UP_VOTE;
     }
 
     private mapLanguage(language: LanguageCode | undefined): CodemakerLanguageCode {
         if (!language) {
-            return "UNSPECIFIED";
+            return CodemakerLanguageCode.UNSPECIFIED;
         }
 
-        return language;
+        // @ts-ignore
+        return Object.entries(CodemakerLanguageCode)[language.toUpperCase()];
     }
 
     private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined {
         if (!codeSnippetContexts) {
             return undefined;
         }
+        // @ts-ignore
         return codeSnippetContexts.map(value => ({
             language: value.language,
             snippet: value.snippet,
@@ -525,11 +496,12 @@ export class Client {
 
     private mapRequiredSourceContexts(requiredSourceContexts: CodemakerRequiredSourceContext[]): RequiredSourceContext[] {
         return requiredSourceContexts.map(context => ({
-            path: context.path!
+            path: context.getPath()!
         }));
     }
 
     private mapSourceContexts(contexts: SourceContext[]): CodemakerSourceContext[] {
+        // @ts-ignore
         return contexts.map(context => ({
             language: context.language,
             input: this.createInput(context.input),
@@ -550,17 +522,6 @@ export class Client {
         return {
             deadline: deadline
         };
-    }
-
-    private loadProtoDefinition() {
-        const packageDefinition = protoLoader.loadSync(Client.protoFile, {
-            keepCase: true,
-            longs: String,
-            enums: String,
-            defaults: true,
-            oneofs: true
-        });
-        return (grpc.loadPackageDefinition(packageDefinition) as any) as ProtoGrpcType;
     }
 
     private isRetryable(error: StatusObject & Error) {
