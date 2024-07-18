@@ -20,9 +20,9 @@ import {
     DiscoverContextRequest,
     DiscoverContextResponse,
     Input,
-    Mode,
     Language,
     LanguageCode,
+    Mode,
     Modify,
     PredictRequest,
     PredictResponse,
@@ -37,35 +37,34 @@ import {
     Vote,
 } from "./model/model";
 import {
+    AssistantCodeCompletionOptions as CodemakerAssistantCodeCompletionOptions,
     AssistantCodeCompletionRequest as CodemakerAssistantCodeCompletionRequest,
     AssistantCodeCompletionResponse as CodemakerAssistantCodeCompletionResponse,
+    AssistantCompletionOptions as CodemakerAssistantCompletionOptions,
     AssistantCompletionRequest as CodemakerAssistantCompletionRequest,
     AssistantCompletionResponse as CodemakerAssistantCompletionResponse,
     AssistantSpeechRequest as CodemakerAssistantSpeechRequest,
     AssistantSpeechResponse as CodemakerAssistantSpeechResponse,
     CodeSnippetContext as CodemakerCodeSnippetContext,
+    CompletionOptions as CodemakerCompletionOptions,
     CompletionRequest as CodemakerCompletionRequest,
     CompletionResponse as CodemakerCompletionResponse,
     CreateSourceContextRequest as CodemakerCreateSourceContextRequest,
     CreateSourceContextResponse as CodemakerCreateSourceContextResponse,
     DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest,
     DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse,
-    ProcessOptions as CodemakerProcessOptions,
-    PredictionOptions as CodemakerPredictionOptions,
-    CompletionOptions as CodemakerCompletionOptions,
-    AssistantCompletionOptions as CodemakerAssistantCompletionOptions,
-    AssistantCodeCompletionOptions as CodemakerAssistantCodeCompletionOptions,
     Encoding as CodemakerEncoding,
+    Input as CodemakerInput,
     Language as CodemakerLanguage,
     LanguageCode as CodemakerLanguageCode,
     Metadata as CodemakerMetadata,
     Mode as CodemakerMode,
     Modify as CodemakerModify,
-    Input as CodemakerInput,
-    Source as CodemakerSource,
     Output as CodemakerOutput,
+    PredictionOptions as CodemakerPredictionOptions,
     PredictRequest as CodemakerPredictRequest,
     PredictResponse as CodemakerPredictResponse,
+    ProcessOptions as CodemakerProcessOptions,
     ProcessRequest as CodemakerProcessRequest,
     ProcessResponse as CodemakerProcessResponse,
     RegisterAssistantFeedbackRequest as CodemakerRegisterAssistantFeedbackRequest,
@@ -73,8 +72,9 @@ import {
     RegisterSourceContextRequest as CodemakerRegisterSourceContextRequest,
     RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse,
     RequiredSourceContext as CodemakerRequiredSourceContext,
+    Source as CodemakerSource,
     SourceContext as CodemakerSourceContext,
-    Vote as CodemakerVote, ProcessOptions
+    Vote as CodemakerVote
 } from "./proto/codemakerai_pb";
 import {Config} from "./config";
 
@@ -177,7 +177,7 @@ export class Client {
 
         const emitter = new EventEmitter();
         stream.on('data', (resp) => {
-           emitter.emit('data', this.createAssistantSpeechResponse(resp));
+            emitter.emit('data', this.createAssistantSpeechResponse(resp));
         });
         stream.on('error', (e) => {
             emitter.emit('error', e);
@@ -472,7 +472,7 @@ export class Client {
         });
     }
 
-    private createInput(input: Input) : CodemakerInput {
+    private createInput(input: Input): CodemakerInput {
         let encoding: CodemakerEncoding = CodemakerEncoding.NONE;
         let content = Buffer.from(input.source, 'utf-8');
         let checksum = this.checksum(content);
@@ -529,7 +529,7 @@ export class Client {
         return vote === Vote.downVote ? CodemakerVote.DOWN_VOTE : CodemakerVote.UP_VOTE;
     }
 
-    private mapLanguage(language: Language) : CodemakerLanguage {
+    private mapLanguage(language: Language): CodemakerLanguage {
         // @ts-ignore
         return CodemakerLanguage[language.toUpperCase()];
     }
