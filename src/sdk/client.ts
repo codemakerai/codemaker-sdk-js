@@ -20,6 +20,8 @@ import {
     DiscoverContextRequest,
     DiscoverContextResponse,
     Input,
+    Mode,
+    Language,
     LanguageCode,
     Modify,
     PredictRequest,
@@ -48,10 +50,19 @@ import {
     CreateSourceContextResponse as CodemakerCreateSourceContextResponse,
     DiscoverSourceContextRequest as CodemakerDiscoverSourceContextRequest,
     DiscoverSourceContextResponse as CodemakerDiscoverSourceContextResponse,
-    Encoding,
+    ProcessOptions as CodemakerProcessOptions,
+    PredictionOptions as CodemakerPredictionOptions,
+    CompletionOptions as CodemakerCompletionOptions,
+    AssistantCompletionOptions as CodemakerAssistantCompletionOptions,
+    AssistantCodeCompletionOptions as CodemakerAssistantCodeCompletionOptions,
     Encoding as CodemakerEncoding,
+    Language as CodemakerLanguage,
     LanguageCode as CodemakerLanguageCode,
+    Metadata as CodemakerMetadata,
+    Mode as CodemakerMode,
     Modify as CodemakerModify,
+    Input as CodemakerInput,
+    Source as CodemakerSource,
     Output as CodemakerOutput,
     PredictRequest as CodemakerPredictRequest,
     PredictResponse as CodemakerPredictResponse,
@@ -63,7 +74,7 @@ import {
     RegisterSourceContextResponse as CodemakerRegisterSourceContextResponse,
     RequiredSourceContext as CodemakerRequiredSourceContext,
     SourceContext as CodemakerSourceContext,
-    Vote as CodemakerVote
+    Vote as CodemakerVote, ProcessOptions
 } from "./proto/codemakerai_pb";
 import {Config} from "./config";
 
@@ -184,18 +195,32 @@ export class Client {
     }
 
     private createCompletionRequest(request: CompletionRequest): CodemakerCompletionRequest {
-        return {
-            // @ts-ignore
-            language: request.language,
-            input: this.createInput(request.input),
-            options: {
-                codePath: request.options?.codePath,
-                allowMultiLineAutocomplete: request.options?.allowMultiLineAutocomplete,
-                codeSnippetContexts: this.mapCodeSnippetContexts(request.options?.codeSnippetContexts),
-                contextId: request.options?.contextId,
-                model: request.options?.model,
-            }
-        };
+        const result = new CodemakerCompletionRequest();
+        result.setLanguage(this.mapLanguage(request.language));
+        result.setInput(this.createInput(request.input));
+        result.setOptions(new CodemakerCompletionOptions());
+
+        if (request.options && request.options?.codePath) {
+            result.getOptions()?.setCodepath(request.options?.codePath);
+        }
+
+        if (request.options && request.options?.allowMultiLineAutocomplete) {
+            result.getOptions()?.setAllowmultilineautocomplete(request.options?.allowMultiLineAutocomplete);
+        }
+
+        if (request.options && request.options?.codeSnippetContexts) {
+            result.getOptions()?.setCodesnippetcontextsList(this.mapCodeSnippetContexts(request.options?.codeSnippetContexts));
+        }
+
+        if (request.options && request.options?.contextId) {
+            result.getOptions()?.setContextid(request.options?.contextId);
+        }
+
+        if (request.options && request.options?.model) {
+            result.getOptions()?.setModel(request.options?.model);
+        }
+
+        return result;
     }
 
     private async doCompletion(completionRequest: CodemakerCompletionRequest): Promise<CodemakerCompletionResponse> {
@@ -209,20 +234,37 @@ export class Client {
     }
 
     private createProcessRequest(request: ProcessRequest): CodemakerProcessRequest {
-        return {
-            // @ts-ignore
-            mode: request.mode,
-            language: request.language,
-            input: this.createInput(request.input),
-            options: {
-                modify: this.mapModify(request.options?.modify),
-                codePath: request.options?.codePath,
-                prompt: request.options?.prompt,
-                detectSyntaxErrors: request.options?.detectSyntaxErrors,
-                contextId: request.options?.contextId,
-                model: request.options?.model,
-            }
-        };
+        const result = new CodemakerProcessRequest();
+        result.setMode(this.mapMode(request.mode));
+        result.setLanguage(this.mapLanguage(request.language));
+        result.setInput(this.createInput(request.input));
+        result.setOptions(new CodemakerProcessOptions());
+
+        if (request.options && request.options?.modify) {
+            result.getOptions()?.setModify(this.mapModify(request.options?.modify));
+        }
+
+        if (request.options && request.options?.codePath) {
+            result.getOptions()?.setCodepath(request.options?.codePath);
+        }
+
+        if (request.options && request.options?.prompt) {
+            result.getOptions()?.setPrompt(request.options?.prompt);
+        }
+
+        if (request.options && request.options?.detectSyntaxErrors) {
+            result.getOptions()?.setDetectsyntaxerrors(request.options?.detectSyntaxErrors);
+        }
+
+        if (request.options && request.options?.contextId) {
+            result.getOptions()?.setContextid(request.options?.contextId);
+        }
+
+        if (request.options && request.options?.model) {
+            result.getOptions()?.setModel(request.options?.model);
+        }
+
+        return result;
     }
 
     private async doProcess(processRequest: CodemakerProcessRequest): Promise<CodemakerProcessResponse> {
@@ -236,15 +278,20 @@ export class Client {
     }
 
     private createPredictRequest(request: PredictRequest): CodemakerPredictRequest {
-        return {
-            // @ts-ignore
-            language: request.language,
-            input: this.createInput(request.input),
-            options: {
-                contextId: request.options?.contextId,
-                model: request.options?.model,
-            }
-        };
+        const result = new CodemakerPredictRequest();
+        result.setLanguage(this.mapLanguage(request.language));
+        result.setInput(this.createInput(request.input));
+        result.setOptions(new CodemakerPredictionOptions());
+
+        if (request.options && request.options?.contextId) {
+            result.getOptions()?.setContextid(request.options?.contextId);
+        }
+
+        if (request.options && request.options?.model) {
+            result.getOptions()?.setModel(request.options?.model);
+        }
+
+        return result;
     }
 
     private async doPredict(predictRequest: CodemakerPredictRequest): Promise<CodemakerPredictResponse> {
@@ -256,16 +303,14 @@ export class Client {
     }
 
     private createDiscoverContextRequest(request: DiscoverContextRequest): CodemakerDiscoverSourceContextRequest {
-        return {
-            // @ts-ignore
-            context: {
-                language: request.context.language,
-                input: this.createInput(request.context.input),
-                metadata: {
-                    path: request.context.path,
-                }
-            }
-        };
+        const result = new CodemakerDiscoverSourceContextRequest();
+        result.setContext(new CodemakerSourceContext());
+        result.getContext()?.setLanguage(this.mapLanguage(request.context.language));
+        result.getContext()?.setInput(this.createInput(request.context.input));
+        result.getContext()?.setMetadata(new CodemakerMetadata());
+        result.getContext()?.getMetadata()?.setPath(request.context.path);
+
+        return result;
     }
 
     private async doDiscoverContext(discoverContextRequest: CodemakerDiscoverSourceContextRequest): Promise<CodemakerDiscoverSourceContextResponse> {
@@ -280,8 +325,7 @@ export class Client {
     }
 
     private createCreateContextRequest(request: CreateContextRequest): CodemakerCreateSourceContextRequest {
-        // @ts-ignore
-        return {};
+        return new CodemakerCreateSourceContextRequest();
     }
 
     private async doCreateContext(createContextRequest: CodemakerCreateSourceContextRequest): Promise<CodemakerCreateSourceContextResponse> {
@@ -295,11 +339,10 @@ export class Client {
     }
 
     private createRegisterContextRequest(request: RegisterContextRequest): CodemakerRegisterSourceContextRequest {
-        return {
-            // @ts-ignore
-            id: request.id,
-            sourceContexts: this.mapSourceContexts(request.contexts)
-        };
+        const result = new CodemakerRegisterSourceContextRequest();
+        result.setId(request.id);
+        result.setSourcecontextsList(this.mapSourceContexts(request.contexts));
+        return result;
     }
 
     private async doRegisterContext(registerContextRequest: CodemakerRegisterSourceContextRequest): Promise<CodemakerRegisterSourceContextResponse> {
@@ -311,13 +354,15 @@ export class Client {
     }
 
     private createAssistantCompletionRequest(request: AssistantCompletionRequest): CodemakerAssistantCompletionRequest {
-        return {
-            // @ts-ignore
-            message: request.message,
-            options: {
-                language: this.mapLanguage(request.options?.language)
-            }
-        };
+        const result = new CodemakerAssistantCompletionRequest();
+        result.setMessage(request.message);
+        result.setOptions(new CodemakerAssistantCompletionOptions());
+
+        if (request.options && request.options?.language) {
+            result.getOptions()?.setLanguage(this.mapLanguageCode(request.options?.language))
+        }
+
+        return result;
     }
 
     private doAssistantCompletion(assistantCompletionRequest: CodemakerAssistantCompletionRequest): Promise<CodemakerAssistantCompletionResponse> {
@@ -333,17 +378,25 @@ export class Client {
     }
 
     private createAssistantCodeCompletionRequest(request: AssistantCodeCompletionRequest): CodemakerAssistantCodeCompletionRequest {
-        return {
-            // @ts-ignore
-            message: request.message,
-            language: request.language,
-            input: this.createInput(request.input),
-            options: {
-                contextId: request.options?.contextId,
-                model: request.options?.model,
-                language: this.mapLanguage(request.options?.language)
-            }
-        };
+        const result = new CodemakerAssistantCodeCompletionRequest();
+        result.setMessage(request.message);
+        result.setLanguage(this.mapLanguage(request.language));
+        result.setInput(this.createInput(request.input));
+        result.setOptions(new CodemakerAssistantCodeCompletionOptions());
+
+        if (request.options && request.options?.contextId) {
+            result.getOptions()?.setContextid(request.options.contextId)
+        }
+
+        if (request.options && request.options?.model) {
+            result.getOptions()?.setModel(request.options.model)
+        }
+
+        if (request.options && request.options?.language) {
+            result.getOptions()?.setLanguage(this.mapLanguageCode(request.options?.language))
+        }
+
+        return result;
     }
 
     private doAssistantCodeCompletion(assistantCodeCompletionRequest: CodemakerAssistantCodeCompletionRequest): Promise<CodemakerAssistantCodeCompletionResponse> {
@@ -360,10 +413,10 @@ export class Client {
     }
 
     private createAssistantSpeechRequest(request: AssistantSpeechRequest): CodemakerAssistantSpeechRequest {
-        return {
-            // @ts-ignore
-            message: request.message,
-        };
+        const result = new CodemakerAssistantSpeechRequest();
+        result.setMessage(request.message);
+
+        return result;
     }
 
     private async doAssistantSpeech(assistantSpeechRequest: CodemakerAssistantSpeechRequest): Promise<CodemakerAssistantSpeechResponse> {
@@ -382,12 +435,12 @@ export class Client {
     }
 
     private createRegisterAssistantFeedbackRequest(request: RegisterAssistantFeedbackRequest): CodemakerRegisterAssistantFeedbackRequest {
-        return {
-            // @ts-ignore
-            sessionId: request.sessionId,
-            messageId: request.messageId,
-            vote: this.mapVote(request.vote),
-        };
+        const result = new CodemakerRegisterAssistantFeedbackRequest();
+        result.setSessionid(request.sessionId);
+        result.setMessageid(request.messageId);
+        result.setVote(this.mapVote(request.vote));
+
+        return result;
     }
 
     private doRegisterAssistantFeedback(registerAssistantFeedbackRequest: CodemakerRegisterAssistantFeedbackRequest): Promise<CodemakerRegisterAssistantFeedbackResponse> {
@@ -419,7 +472,7 @@ export class Client {
         });
     }
 
-    private createInput(input: Input) {
+    private createInput(input: Input) : CodemakerInput {
         let encoding: CodemakerEncoding = CodemakerEncoding.NONE;
         let content = Buffer.from(input.source, 'utf-8');
         let checksum = this.checksum(content);
@@ -430,19 +483,18 @@ export class Client {
             content = this.compress(content);
         }
 
-        return {
-            source: {
-                content: content,
-                encoding: encoding,
-                checksum: checksum,
-            }
-        };
+        const result = new CodemakerInput();
+        result.setSource(new CodemakerSource());
+        result.getSource()?.setContent(content);
+        result.getSource()?.setEncoding(encoding);
+        result.getSource()?.setChecksum(checksum);
+        return result;
     }
 
     private createOutput(output: CodemakerOutput) {
         let content = Buffer.from(output.getSource()?.getContent_asB64()!, "base64");
 
-        if (output.getSource()?.getEncoding() === Encoding.GZIP) {
+        if (output.getSource()?.getEncoding() === CodemakerEncoding.GZIP) {
             content = this.decompress(content);
         }
         return {
@@ -464,7 +516,12 @@ export class Client {
             .digest('hex');
     }
 
-    private mapModify(modify: Modify | undefined): CodemakerModify {
+    private mapMode(mode: Mode): CodemakerMode {
+        // @ts-ignore
+        return CodemakerMode[mode.toUpperCase()];
+    }
+
+    private mapModify(modify: Modify): CodemakerModify {
         return modify === Modify.replace ? CodemakerModify.REPLACE : CodemakerModify.UNMODIFIED;
     }
 
@@ -472,26 +529,29 @@ export class Client {
         return vote === Vote.downVote ? CodemakerVote.DOWN_VOTE : CodemakerVote.UP_VOTE;
     }
 
-    private mapLanguage(language: LanguageCode | undefined): CodemakerLanguageCode {
+    private mapLanguage(language: Language) : CodemakerLanguage {
+        // @ts-ignore
+        return CodemakerLanguage[language.toUpperCase()];
+    }
+
+    private mapLanguageCode(language: LanguageCode | undefined): CodemakerLanguageCode {
         if (!language) {
             return CodemakerLanguageCode.UNSPECIFIED;
         }
 
         // @ts-ignore
-        return Object.entries(CodemakerLanguageCode)[language.toUpperCase()];
+        return CodemakerLanguageCode[language.toUpperCase()];
     }
 
-    private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[] | undefined): CodemakerCodeSnippetContext[] | undefined {
-        if (!codeSnippetContexts) {
-            return undefined;
-        }
-        // @ts-ignore
-        return codeSnippetContexts.map(value => ({
-            language: value.language,
-            snippet: value.snippet,
-            relativePath: value.relativePath,
-            score: value.score,
-        }));
+    private mapCodeSnippetContexts(codeSnippetContexts: CodeSnippetContext[]): CodemakerCodeSnippetContext[] {
+        return codeSnippetContexts.map(value => {
+            const result = new CodemakerCodeSnippetContext();
+            result.setLanguage(value.language);
+            result.setSnippet(value.snippet);
+            result.setRelativepath(value.relativePath);
+            result.setScore(value.score);
+            return result;
+        });
     }
 
     private mapRequiredSourceContexts(requiredSourceContexts: CodemakerRequiredSourceContext[]): RequiredSourceContext[] {
