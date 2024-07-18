@@ -34,7 +34,8 @@
   },
   "homepage": "https://github.com/codemakerai/codemaker-sdk-js#readme",
   "dependencies": {
-    "@grpc/grpc-js": "^1.11.1"
+    "@grpc/grpc-js": "^1.11.1",
+    "google-protobuf": "^3.21.4"
   },
   "devDependencies": {
     "@types/chai": "^4.3.16",
